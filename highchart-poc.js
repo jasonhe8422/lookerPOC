@@ -25,13 +25,22 @@ const visObject = {
    * the data and should update the visualization with the new data.
    **/
   updateAsync: function(data, element, config, queryResponse, details, doneRendering){
-    console.log("----------queryResponse----------");
-    console.log(JSON.stringify(queryResponse));
-    console.log("----------data------------");
-    console.log(JSON.stringify(data));
+    // console.log("----------queryResponse----------");
+    // console.log(JSON.stringify(queryResponse));
+    // console.log("----------data------------");
+    // console.log(JSON.stringify(data));
     let containerId = "container:"+new Date().getTime();
     element.id= containerId;
-    Highcharts.getJSON('https://demo-live-data.highcharts.com/aapl-c.json', function (data) {
+    let measureName = queryResponse.fields.measures[0].name;
+    let dimensionName = queryResponse.fields.dimensions[0].name;
+    const convertedData = data.map(item=>{
+      const date = new Date(item[dimensionName].value).getTime();
+      const mktValue = item[measureName].value;
+      return [date,mktValue];
+    });
+    console.log("----------------Converted Data------------------------")
+    console.log(JSON.stringify(convertedData));
+    Highcharts.getJSON(convertedData, function (data) {
       // Create the chart
       Highcharts.stockChart(containerId, {
 
