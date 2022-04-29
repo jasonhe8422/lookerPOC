@@ -10,7 +10,14 @@ const visObject = {
    * Configuration options for your visualization. In Looker, these show up in the vis editor
    * panel but here, you can just manually set your default values in the code.
    **/
-
+  options: {
+    display_style: {
+      type: "string",
+      label: "Display Style",
+      display: "radio",
+      values: [{"US":"US"},{"CL":"CL"}]
+    }
+  },
 
   /**
    * The create function gets called when the visualization is mounted but before any
@@ -27,6 +34,8 @@ const visObject = {
   updateAsync: function (data, element, config, queryResponse, details, doneRendering) {
     // Clear any errors from previous updates.
     this.clearErrors();
+    console.log("config: ");
+    console.log(JSON.stringify(config));
 
     // Throw some errors and exit if the shape of the data isn't what this chart needs.
     if (!queryResponse.fields.dimensions || queryResponse.fields.dimensions.length == 0) {
