@@ -25,10 +25,18 @@ const visObject = {
    * the data and should update the visualization with the new data.
    **/
   updateAsync: function (data, element, config, queryResponse, details, doneRendering) {
-    // console.log("----------queryResponse----------");
-    // console.log(JSON.stringify(queryResponse));
-    // console.log("----------data------------");
-    // console.log(JSON.stringify(data));
+    // Clear any errors from previous updates.
+    this.clearErrors();
+
+    // Throw some errors and exit if the shape of the data isn't what this chart needs.
+    if (!queryResponse.fields.dimensions || queryResponse.fields.dimensions.length == 0) {
+      this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
+      return;
+    }
+    if (!queryResponse.fields.measures || queryResponse.fields.measures.length == 0) {
+      this.addError({title: "No Dimensions", message: "This chart requires measures."});
+      return;
+    }
     let containerId = "container:" + new Date().getTime();
     element.id = containerId;
     let measureName = queryResponse.fields.measures[0].name;
@@ -38,27 +46,30 @@ const visObject = {
       const mktValue = item[measureName].value;
       return [date, mktValue];
     });
-    console.log("----------------Converted Data------------------------")
-    console.log(JSON.stringify(convertedData));
+    // console.log("----------------Converted Data------------------------")
+    // console.log(JSON.stringify(convertedData));
     Highcharts.stockChart(containerId, {
       credits: {
         enabled: false,
       },
+      exporting: {
+        enabled: false,
+      },
       rangeSelector: {
-        enabled:false,
+        enabled: false,
         selected: 1
       },
-      navigator:{
-        enabled:false,
+      navigator: {
+        enabled: false,
       },
- 
 
       series: [{
         data: convertedData,
         tooltip: {
           valueDecimals: 2
         }
-      }]});
+      }]
+    });
 
     doneRendering()
   }
