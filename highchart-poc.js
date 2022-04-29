@@ -16,7 +16,7 @@ const visObject = {
    * The create function gets called when the visualization is mounted but before any
    * data is passed to it.
    **/
-  create: function(element, config){
+  create: function (element, config) {
     // element.innerHTML = "<h1>Ready to render!</h1>";
   },
 
@@ -24,44 +24,41 @@ const visObject = {
    * UpdateAsync is the function that gets called (potentially) multiple times. It receives
    * the data and should update the visualization with the new data.
    **/
-  updateAsync: function(data, element, config, queryResponse, details, doneRendering){
+  updateAsync: function (data, element, config, queryResponse, details, doneRendering) {
     // console.log("----------queryResponse----------");
     // console.log(JSON.stringify(queryResponse));
     // console.log("----------data------------");
     // console.log(JSON.stringify(data));
-    let containerId = "container:"+new Date().getTime();
-    element.id= containerId;
+    let containerId = "container:" + new Date().getTime();
+    element.id = containerId;
     let measureName = queryResponse.fields.measures[0].name;
     let dimensionName = queryResponse.fields.dimensions[0].name;
-    const convertedData = data.map(item=>{
+    const convertedData = data.map(item => {
       const date = new Date(item[dimensionName].value).getTime();
       const mktValue = item[measureName].value;
-      return [date,mktValue];
+      return [date, mktValue];
     });
     console.log("----------------Converted Data------------------------")
     console.log(JSON.stringify(convertedData));
-    Highcharts.getJSON(convertedData, function (data) {
-      // Create the chart
-      Highcharts.stockChart(containerId, {
+    Highcharts.stockChart(containerId, {
+      credits: {
+        enabled: false,
+      },
+      rangeSelector: {
+        enabled:false,
+        selected: 1
+      },
+      navigator:{
+        enabled:false,
+      },
+ 
 
-
-        rangeSelector: {
-          selected: 1
-        },
-
-        title: {
-          text: 'AAPL Stock Price'
-        },
-
-        series: [{
-          name: 'AAPL',
-          data: data,
-          tooltip: {
-            valueDecimals: 2
-          }
-        }]
-      });
-    });
+      series: [{
+        data: convertedData,
+        tooltip: {
+          valueDecimals: 2
+        }
+      }]});
 
     doneRendering()
   }
