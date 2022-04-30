@@ -60,7 +60,7 @@ const visObject = {
     const measureLabelName = queryResponse.fields.measures[0].label_short;
     const dimensionLabelName = queryResponse.fields.dimensions[0].label_short;
     const visObjectThis = this;
-    
+
     Highcharts.stockChart(containerId, {
       credits: {
         enabled: false,
@@ -76,83 +76,81 @@ const visObject = {
         enabled: false,
       },
       scrollbar: {
-      	enabled: false
+        enabled: false
       },
 
-       tooltip: {
+      tooltip: {
         backgroundColor: "#262D33",
         style: {
-            color: 'white'
+          color: 'white'
         },
         borderWidth: 0,
         shadow: false,
         useHTML: true,
-        formatter: function(t,tooltip) {
-        const date = visObjectThis.dateformat(this.x);
-				const amount = visObjectThis.formatMoney(this.y,2,'');
-        return '<div style="height:20px">'+dimensionLabelName + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">'+
-               measureLabelName + '</div><div><b>' + amount+'</b></div>';
+        formatter: function() {
+          const date = visObjectThis.dateformat(this.x);
+          const amount = visObjectThis.formatMoney(this.y,2,'');
+          return '<div style="height:20px">'+dimensionLabelName + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">'+
+            measureLabelName + '</div><div><b>' + amount+'</b></div>';
         }
-    	},
+      },
 
       series: [{
         data: convertedData
-        
+
       }]
     });
 
     doneRendering()
   },
-  
-   dateformat: function (timestamp)
-   {
-      var time = new Date(timestamp);
-      var y = time.getFullYear();
-      var m = time.getMonth()+1;
-      var d = time.getDate();
-      var h = time.getHours();
-      var mm = time.getMinutes();
-      var s = time.getSeconds();
-      return y+'-'+add0(m)+'-'+add0(d);
-   },
-  
-    dateTimeFormat: function (timestamp)
-    {
-      var time = new Date(timestamp);
-      var y = time.getFullYear();
-      var m = time.getMonth()+1;
-      var d = time.getDate();
-      var h = time.getHours();
-      var mm = time.getMinutes();
-      var s = time.getSeconds();
-      return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
-    },
-  
-	formatMoney: function (number, places, symbol, thousand, decimal){
-  number = number || 0;
-  places = !isNaN(places = Math.abs(places)) ? places : 2;
-  symbol = symbol !== undefined ? symbol : "$";
-  thousand = thousand || ",";
-  decimal = decimal || ".";
-  var negative = number < 0 ? "-" : "",
-  i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
-  j = (j = i.length) > 3 ? j % 3 : 0;
-  return symbol + negative + (j ? i.substr(0, j) + thousand : "") + 
-  i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + 
-  Math.abs(number - i).toFixed(places).slice(2) : "");
-}
+
+  dateformat: function (timestamp)
+  {
+    const time = new Date(timestamp);
+    let y = time.getFullYear();
+    let m = time.getMonth()+1;
+    let d = time.getDate();
+    return y+'-'+add0(m)+'-'+add0(d);
+  },
+
+  dateTimeFormat: function (timestamp)
+  {
+    const time = new Date(timestamp);
+    let y = time.getFullYear();
+    let m = time.getMonth()+1;
+    let d = time.getDate();
+    let h = time.getHours();
+    let mm = time.getMinutes();
+    let s = time.getSeconds();
+    return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+  },
 
 
-			
-  
+  add0: function (m){return m<10?'0'+m:m },
+
+  formatMoney: function (number, places, symbol, thousand, decimal){
+    number = number || 0;
+    places = !isNaN(places = Math.abs(places)) ? places : 2;
+    symbol = symbol !== undefined ? symbol : "$";
+    thousand = thousand || ",";
+    decimal = decimal || ".";
+    let negative = number < 0 ? "-" : "",
+      i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
+      j = (j = i.length) > 3 ? j % 3 : 0;
+    return symbol + negative + (j ? i.substr(0, j) + thousand : "") +
+      i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal +
+        Math.abs(number - i).toFixed(places).slice(2) : "");
+  }
+
+
+
+
 };
 
 looker.plugins.visualizations.add(visObject);
 
-      
-     
 
 
 
-function add0(m){return m<10?'0'+m:m }
+
 
