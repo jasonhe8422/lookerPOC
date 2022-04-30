@@ -80,7 +80,7 @@ const visObject = {
       },
 
        tooltip: {
-        backgroundColor: "#000000",
+        backgroundColor: "#262D33",
         style: {
             color: 'white'
         },
