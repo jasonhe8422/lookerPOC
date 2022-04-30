@@ -126,8 +126,6 @@ const visObject = {
   },
 
 
-  add0: function (m){return m<10?'0'+m:m },
-
   formatMoney: function (number, places, symbol, thousand, decimal){
     number = number || 0;
     places = !isNaN(places = Math.abs(places)) ? places : 2;
@@ -142,14 +140,11 @@ const visObject = {
         Math.abs(number - i).toFixed(places).slice(2) : "");
   }
 
-
-
-
 };
 
 looker.plugins.visualizations.add(visObject);
 
-
+function add0 (m){return m<10?'0'+m:m }
 
 
 
