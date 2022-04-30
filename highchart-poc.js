@@ -90,7 +90,7 @@ const visObject = {
         formatter: function(t,tooltip) {
         const date = visObjectThis.dateformat(this.x);
 				const amount = visObjectThis.formatMoney(this.y,2,'');
-        return '<div style="height:20px">'+dimensionLabelName + '</div><div style="height:36px"><b>' + date + '</b></div><div style="height:20px">'+
+        return '<div style="height:20px">'+dimensionLabelName + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">'+
                measureLabelName + '</div><div><b>' + amount+'</b></div>';
         }
     	},
@@ -131,7 +131,7 @@ const visObject = {
 	formatMoney: function (number, places, symbol, thousand, decimal){
   number = number || 0;
   places = !isNaN(places = Math.abs(places)) ? places : 2;
-  symbol = symbol !== undefined ? symbol : "￥";
+  symbol = symbol !== undefined ? symbol : "$";
   thousand = thousand || ",";
   decimal = decimal || ".";
   var negative = number < 0 ? "-" : "",
