@@ -84,11 +84,14 @@ const visObject = {
         style: {
             color: 'white'
         },
+        borderWidth: 0,
+        shadow: false,
+        useHTML: true,
         formatter: function(t,tooltip) {
         const date = visObjectThis.dateformat(this.x);
 				const amount = visObjectThis.formatMoney(this.y,2,'');
-        return '<span>'+dimensionLabelName + ' <br><b>' + date + '</b><br><br>'+
-               measureLabelName + '<br><b>' + amount+'</b><br></span>';
+        return '<div style="height:20px">'+dimensionLabelName + '</div><div style="height:36px"><b>' + date + '</b></div><div style="height:20px">'+
+               measureLabelName + '</div><div><b>' + amount+'</b></div>';
         }
     	},
 
