@@ -31,6 +31,13 @@ const visObject = {
       label: "Value Labels",
       default: false
     },
+    value_label_color:{
+      section:"Plot",
+      type: "array",
+      display: "colors",
+      label: "Value Labels Palette",
+      default: ["#62bad4", "#a9c574", "#929292", "#9fdee0", "#1f3e5a", "#90c8ae", "#92818d", "#c5c6a6", "#82c2ca", "#cee0a0", "#928fb4", "#9fc190"]
+    },
     enable_mouse_tracking: {
       section: "Plot",
       type: "boolean",
@@ -100,8 +107,8 @@ const visObject = {
   updateAsync: function (data, element, config, queryResponse, details, doneRendering) {
     // Clear any errors from previous updates.
     this.clearErrors();
-    // console.log("config: ");
-    // console.log(JSON.stringify(config));
+    console.log("config: ");
+    console.log(JSON.stringify(config));
     // console.log("queryResponse: ");
     // console.log(JSON.stringify(queryResponse));
     // console.log("data: ");
@@ -246,7 +253,8 @@ const visObject = {
       plotOptions: {
         line: {
           dataLabels: {
-            enabled: config.value_labels
+            enabled: config.value_labels,
+            color: config.value_label_color
           },
           enableMouseTracking: config.enable_mouse_tracking
         }
