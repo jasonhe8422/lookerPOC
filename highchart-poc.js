@@ -19,6 +19,24 @@ const visObject = {
       display: "radio",
       values: [{"US": "US"}, {"CL": "CL"}]
     },
+    value_labels: {
+      section: "Data",
+      type: "boolean",
+      label: "Value Labels",
+      default: "false"
+    },
+    percentage: {
+      section: "Data",
+      type: "boolean",
+      label: "Percentage(%)",
+      default: "false"
+    },
+    decimals: {
+      section: "Data",
+      type: "number",
+      label: "Decimals",
+      default: 2
+    },
     custom_x_axis_name: {
       section: "X",
       type: "string",
@@ -82,22 +100,25 @@ const visObject = {
     const hasMeasures = queryResponse.fields.measures && queryResponse.fields.measures.length > 0;
     if (hasTableCalculation) {
       this.generateCalculationHighChartLine(queryResponse, data, config, containerId);
-    }else if(hasMeasures){
+    } else if (hasMeasures) {
       this.generateNormalHighChartLine(queryResponse, data, config, containerId);
-    }else{
+    } else {
       console.error("neither table_calculations nor measures can be found in query response.");
-      this.addError({title: "No table_calculations and measures", message: "Neither table_calculations nor measures can be found in query response."});
+      this.addError({
+        title: "No table_calculations and measures",
+        message: "Neither table_calculations nor measures can be found in query response."
+      });
     }
     doneRendering()
   },
   generateCalculationHighChartLine: function (queryResponse, data, config, containerId) {
     const dimensionName = queryResponse.fields.dimensions[0].name;
     const yName = queryResponse.fields.table_calculations[0].name;
-
-    const convertedData = data.filter(item=>item[yName].value).map(item => {
+    const percentage = config.percentage;
+    const convertedData = data.filter(item => item[yName].value).map(item => {
       const date = new Date(item[dimensionName].value).getTime();
-      const mktValue = item[yName].value;
-      return [date, mktValue];
+      const mktValue = percentage ? item[yName].value * 100 : item[yName].value;
+      return [date, this.round(mktValue, config.decimals)];
     });
     console.log("convertedData: ");
     console.log(JSON.stringify(convertedData));
@@ -235,6 +256,17 @@ const visObject = {
     return symbol + negative + (j ? i.substr(0, j) + thousand : "") +
       i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal +
         Math.abs(number - i).toFixed(places).slice(2) : "");
+  },
+
+  round: function (numberRound,roundDigit) {
+    if (numberRound>=0){
+      var tempNumber = parseInt((numberRound * Math.pow(10,roundDigit)+0.5))/Math.pow(10,roundDigit);
+      return tempNumber;
+    } else{
+      numberRound1=-numberRound;
+      var tempNumber = parseInt((numberRound1 * Math.pow(10,roundDigit)+0.5))/Math.pow(10,roundDigit);
+      return -tempNumber;
+    }
   }
 
 };
