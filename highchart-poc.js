@@ -31,12 +31,11 @@ const visObject = {
       label: "Value Labels",
       default: false
     },
-    value_label_color:{
-      section:"Plot",
+    value_label_color: {
+      section: "Plot",
       type: "array",
       display: "color",
-      label: "Value Labels Palette",
-      default: ["#62bad4", "#a9c574", "#929292", "#9fdee0", "#1f3e5a", "#90c8ae", "#92818d", "#c5c6a6", "#82c2ca", "#cee0a0", "#928fb4", "#9fc190"]
+      label: "Value Labels Color"
     },
     enable_mouse_tracking: {
       section: "Plot",
@@ -254,7 +253,14 @@ const visObject = {
         line: {
           dataLabels: {
             enabled: config.value_labels,
-            color: config.value_label_color
+            color: config.value_label_color,
+            formatter: function () {
+              const label = visObjectThis.formatMoney(this.value, config.decimals, '');
+              if (config.percentage) {
+                return label + "%";
+              }
+              return label;
+            }
           },
           enableMouseTracking: config.enable_mouse_tracking
         }
