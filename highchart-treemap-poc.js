@@ -5,13 +5,18 @@
  *  - Example Visualizations - https://github.com/looker/custom_visualizations_v2/tree/master/src/examples
  **/
 
-
 const visObject = {
   /**
    * Configuration options for your visualization. In Looker, these show up in the vis editor
    * panel but here, you can just manually set your default values in the code.
    **/
-
+  options: {
+    sort_by_value: {
+      type: "boolean",
+      label: "Sort By Value",
+      default: false
+    }
+  },
   /**
    * The create function gets called when the visualization is mounted but before any
    * data is passed to it.
@@ -42,52 +47,42 @@ const visObject = {
     doneRendering()
   },
 
-  generateCalculationHighChartLine: function (queryResponse, data, config, containerId) {
-    const dimensionName = queryResponse.fields.dimensions[0].name;
-    const yName = queryResponse.fields.table_calculations[0].name;
-    const convertedData = this.convertData(dimensionName, yName, data, config);
-
-    // console.log("convertedData: ");
-    // console.log(JSON.stringify(convertedData));
-    const dimensionLabel = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
-    const yLabel = config.custom_y_axis_name || queryResponse.fields.table_calculations[0].label_short || queryResponse.fields.table_calculations[0].label;
-    this.drawChart(containerId, convertedData, dimensionLabel, yLabel, config);
-  },
 
   generateNormalHighChartLine: function (queryResponse, data, config, containerId) {
     let measureName = queryResponse.fields.measures[0].name;
     let dimensionName = queryResponse.fields.dimensions[0].name;
     const convertedData = this.convertData(dimensionName, measureName, data, config);
-    // console.log("----------------Converted Data------------------------")
-    // console.log(JSON.stringify(convertedData));
-    const measureLabelName = config.custom_y_axis_name || queryResponse.fields.measures[0].label_short || queryResponse.fields.measures[0].label;
-    const dimensionLabelName = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
-    this.drawChart(containerId, convertedData, dimensionLabelName, measureLabelName, config);
+    console.log("----------------Converted Data------------------------")
+    console.log(JSON.stringify(convertedData));
+    this.drawChart(containerId, convertedData, config);
   },
 
-  convertData: function (xFieldName, yFieldName, data, config) {
-    const percentage = config.percentage;
-    if (config.sort_by_x) {
-      data = data.filter(item => item[xFieldName].value).sort((a, b) => {
-        if (a[xFieldName].value < b[xFieldName].value) {
+  convertData: function (dimensionFieldName, measureFieldName, data, config) {
+    if (config.sort_by_value) {
+      data = data.filter(item => item[measureFieldName].value).sort((a, b) => {
+        if (a[measureFieldName].value < b[measureFieldName].value) {
           return -1;
-        } else if (a[xFieldName].value > b[xFieldName].value) {
+        } else if (a[measureFieldName].value > b[measureFieldName].value) {
           return 1;
         } else {
           return 0;
         }
       })
     }
-    const convertedData = data.filter(item => item[yFieldName].value).map(item => {
-      const date = new Date(item[xFieldName].value).getTime();
-      const mktValue = percentage ? item[yFieldName].value * 100 : item[yFieldName].value;
-      return [date, this.round(mktValue, config.decimals)];
+    const convertedData = data.filter(item => item[measureFieldName].value).map((item, index) => {
+      const value = item[measureFieldName].value;
+      const name = item[dimensionFieldName].value;
+      return {
+        name: name,
+        value: value,
+        colorValue: index + 1
+      };
     });
     return convertedData;
   },
 
   drawChart: function (containerId, data, xLabel, yLabel, config) {
-    Highcharts.chart('container', {
+    Highcharts.chart(containerId, {
       colorAxis: {
         minColor: '#FFFFFF',
         maxColor: Highcharts.getOptions().colors[0]
