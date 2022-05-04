@@ -84,22 +84,22 @@ const visObject = {
     console.log("data: ");
     console.log(JSON.stringify(data));
     // element.style.innerHTML = defaultTheme;
-    element.innerHTML = `
-      <style>
-        .tooltipdiv{
-          font-family: "Open Sans",Helvetica,Arial,sans-serif;
-          font-size: 100px;
-          pointer-events: none;
-          overflow: none;
-          white-space: nowrap;
-        }
-        .vis_container{
-            height: 100%
-        }
-      </style>
-    `;
-    // element.style.height = "100%";
-    element.className = "vis_container";
+    // element.innerHTML = `
+    //   <style>
+    //     .tooltipdiv{
+    //       font-family: "Open Sans",Helvetica,Arial,sans-serif;
+    //       font-size: 100px;
+    //       pointer-events: none;
+    //       overflow: none;
+    //       white-space: nowrap;
+    //     }
+    //     .vis_container{
+    //         height: 100%
+    //     }
+    //   </style>
+    // `;
+    element.style.height = "100%";
+    // element.className = "vis_container";
     let container = document.createElement("div");
     element.appendChild(container);
 
@@ -176,7 +176,7 @@ const visObject = {
       },
 
       tooltip: {
-        className: "tooltipdiv",
+        // className: "tooltipdiv",
         backgroundColor: "#262D33",
         style: {
           color: 'white'
@@ -231,7 +231,7 @@ const visObject = {
       },
 
       tooltip: {
-        className: "tooltipdiv",
+        // className: "tooltipdiv",
         backgroundColor: "#262D33",
         style: {
           color: 'white'
