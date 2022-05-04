@@ -177,7 +177,7 @@ const visObject = {
         shadow: false,
         useHTML: true,
         formatter: function () {
-          const date = visObjectThis.dateformat(this.x);
+          const date = visObjectThis.dateformat(this.x, config.date_format);
           const amount = visObjectThis.formatMoney(this.y, config.decimals, '');
           return '<div style="height:20px">' + dimensionLabel + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
             yLabel + '</div><div><b>' + amount + '</b></div>';
@@ -232,7 +232,7 @@ const visObject = {
         shadow: false,
         useHTML: true,
         formatter: function () {
-          const date = visObjectThis.dateformat(this.x);
+          const date = visObjectThis.dateformat(this.x, config.date_format);
           const amount = visObjectThis.formatMoney(this.y, 2, '');
           return '<div style="height:20px">' + dimensionLabelName + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
             measureLabelName + '</div><div><b>' + amount + '</b></div>';
@@ -249,10 +249,6 @@ const visObject = {
   dateformat: function (timestamp, format) {
     console.log("dateformat: "+timestamp+"--"+format);
     return moment(new Date(timestamp)).format(format);
-    // let y = time.getFullYear();
-    // let m = time.getMonth() + 1;
-    // let d = time.getDate();
-    // return y + '-' + add0(m) + '-' + add0(d);
   },
 
   formatMoney: function (number, places, symbol, thousand, decimal) {
