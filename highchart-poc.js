@@ -256,7 +256,7 @@ const visObject = {
             color: config.value_label_color,
             formatter: function () {
               console.log(this)
-              const label = visObjectThis.formatMoney(this.value, config.decimals, '');
+              const label = visObjectThis.formatMoney(this.y, config.decimals, '');
               if (config.percentage) {
                 return label + "%";
               }
