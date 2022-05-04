@@ -106,8 +106,8 @@ const visObject = {
   updateAsync: function (data, element, config, queryResponse, details, doneRendering) {
     // Clear any errors from previous updates.
     this.clearErrors();
-    console.log("config: ");
-    console.log(JSON.stringify(config));
+    // console.log("config: ");
+    // console.log(JSON.stringify(config));
     // console.log("queryResponse: ");
     // console.log(JSON.stringify(queryResponse));
     // console.log("data: ");
@@ -255,7 +255,6 @@ const visObject = {
             enabled: config.value_labels,
             color: config.value_label_color,
             formatter: function () {
-              console.log(this)
               const label = visObjectThis.formatMoney(this.y, config.decimals, '');
               if (config.percentage) {
                 return label + "%";
