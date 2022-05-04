@@ -112,13 +112,13 @@ const visObject = {
         useHTML: true,
         formatter: function () {
           console.log(this);
-          let amount = visObjectThis.formatMoney(this.value, 2, '');
+          const value = this.point.value;
+          const name = this.point.name;
+          let label = visObjectThis.formatMoney(value, 2, '');
           if (config.percentage) {
-            amount = amount + "%";
+            label = label + "%";
           }
-          return amount;
-          // return '<div style="height:20px">' + xLabel + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
-          //   yLabel + '</div><div><b>' + amount + '</b></div>';
+          return '<div style="height:20px">' + name + '</div><b>' + label + '</b></div>';
         }
       },
       series: [{
