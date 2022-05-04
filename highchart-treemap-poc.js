@@ -78,7 +78,7 @@ const visObject = {
       const name = item[dimensionFieldName].value;
       return {
         name: name,
-        value: this.formatMoney(value,2,''),
+        value: value,
         colorValue: index + 1
       };
     });
