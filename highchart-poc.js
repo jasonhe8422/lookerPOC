@@ -128,7 +128,7 @@ const visObject = {
     }
     doneRendering()
   },
-  
+
   generateCalculationHighChartLine: function (queryResponse, data, config, containerId) {
     const dimensionName = queryResponse.fields.dimensions[0].name;
     const yName = queryResponse.fields.table_calculations[0].name;
@@ -210,7 +210,7 @@ const visObject = {
         formatter: function () {
           const date = visObjectThis.dateformat(this.x, config.date_format);
           const amount = visObjectThis.formatMoney(this.y, config.decimals, '');
-          return '<div style="height:20px">' + dimensionLabel + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
+          return '<div style="height:20px">' + xLabel + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
             yLabel + '</div><div><b>' + amount + '</b></div>';
         }
       },
