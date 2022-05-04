@@ -76,8 +76,6 @@ const visObject = {
       return;
     }
 
-    let containerId = "container:" + new Date().getTime();
-    container.id = containerId;
     const hasTableCalculation = queryResponse.fields.table_calculations && queryResponse.fields.table_calculations.length > 0;
     const hasMeasures = queryResponse.fields.measures && queryResponse.fields.measures.length > 0;
     if (hasTableCalculation) {
@@ -91,6 +89,8 @@ const visObject = {
     doneRendering()
   },
   generateCalculationHighChartLine: function (queryResponse, data, config) {
+    let containerId = "container:" + new Date().getTime();
+    container.id = containerId;
     const dimensionName = queryResponse.fields.dimensions[0].name;
     const yName = queryResponse.fields.table_calculations[0].name;
 
@@ -146,6 +146,8 @@ const visObject = {
     });
   },
   generateNormalHighChartLine: function (queryResponse, data) {
+    let containerId = "container:" + new Date().getTime();
+    container.id = containerId;
     let measureName = queryResponse.fields.measures[0].name;
     let dimensionName = queryResponse.fields.dimensions[0].name;
     const convertedData = data.map(item => {
