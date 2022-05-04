@@ -15,6 +15,10 @@ const visObject = {
       type: "boolean",
       label: "Sort By Value",
       default: false
+    },
+    plot_title: {
+      type: "string",
+      label: "Plot Title"
     }
   },
   /**
@@ -43,7 +47,7 @@ const visObject = {
 
     let containerId = "container:" + new Date().getTime();
     element.id = containerId;
-    this.drawChart(containerId)
+    this.generateNormalHighChartLine(queryResponse, data, config, containerId);
     doneRendering()
   },
 
@@ -81,7 +85,7 @@ const visObject = {
     return convertedData;
   },
 
-  drawChart: function (containerId, data, xLabel, yLabel, config) {
+  drawChart: function (containerId, data, config) {
     Highcharts.chart(containerId, {
       colorAxis: {
         minColor: '#FFFFFF',
@@ -90,38 +94,10 @@ const visObject = {
       series: [{
         type: 'treemap',
         layoutAlgorithm: 'squarified',
-        data: [{
-          name: 'A',
-          value: 6,
-          colorValue: 1
-        }, {
-          name: 'B',
-          value: 6,
-          colorValue: 2
-        }, {
-          name: 'C',
-          value: 4,
-          colorValue: 3
-        }, {
-          name: 'D',
-          value: 3,
-          colorValue: 4
-        }, {
-          name: 'E',
-          value: 2,
-          colorValue: 5
-        }, {
-          name: 'F',
-          value: 2,
-          colorValue: 6
-        }, {
-          name: 'G',
-          value: 1,
-          colorValue: 7
-        }]
+        data: data
       }],
       title: {
-        text: 'Highcharts Treemap'
+        text: config.plot_title || ""
       }
     });
   },
