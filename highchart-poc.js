@@ -19,7 +19,7 @@ const visObject = {
       display: "radio",
       values: [{"US": "US"}, {"CL": "CL"}]
     },
-    date_format:{
+    date_format: {
       section: "Plot",
       type: "string",
       label: "Date Format",
@@ -128,32 +128,53 @@ const visObject = {
     }
     doneRendering()
   },
+  
   generateCalculationHighChartLine: function (queryResponse, data, config, containerId) {
     const dimensionName = queryResponse.fields.dimensions[0].name;
     const yName = queryResponse.fields.table_calculations[0].name;
+    const convertedData = this.convertData(dimensionName, yName, data, config);
+
+    console.log("convertedData: ");
+    console.log(JSON.stringify(convertedData));
+    const dimensionLabel = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
+    const yLabel = config.custom_y_axis_name || queryResponse.fields.table_calculations[0].label_short || queryResponse.fields.table_calculations[0].label;
+    this.drawChart(containerId, convertedData, dimensionLabel, yLabel, config);
+  },
+
+  generateNormalHighChartLine: function (queryResponse, data, config, containerId) {
+    let measureName = queryResponse.fields.measures[0].name;
+    let dimensionName = queryResponse.fields.dimensions[0].name;
+    const convertedData = this.convertData(dimensionName, measureName, data, config);
+    // console.log("----------------Converted Data------------------------")
+    // console.log(JSON.stringify(convertedData));
+    const measureLabelName = queryResponse.fields.measures[0].label_short;
+    const dimensionLabelName = queryResponse.fields.dimensions[0].label_short;
+    this.drawChart(containerId, convertedData, dimensionLabelName, measureLabelName, config);
+  },
+
+  convertData: function (xFieldName, yFieldName, data, config) {
     const percentage = config.percentage;
     if (config.sort_by_x) {
-      data = data.filter(item => item[dimensionName].value).sort((a, b) => {
-        if (a[dimensionName].value < b[dimensionName].value) {
+      data = data.filter(item => item[xFieldName].value).sort((a, b) => {
+        if (a[xFieldName].value < b[xFieldName].value) {
           return -1;
-        } else if (a[dimensionName].value > b[dimensionName].value) {
+        } else if (a[xFieldName].value > b[xFieldName].value) {
           return 1;
         } else {
           return 0;
         }
       })
     }
-    const convertedData = data.filter(item => item[yName].value).map(item => {
-      const date = new Date(item[dimensionName].value).getTime();
-      const mktValue = percentage ? item[yName].value * 100 : item[yName].value;
+    const convertedData = data.filter(item => item[yFieldName].value).map(item => {
+      const date = new Date(item[xFieldName].value).getTime();
+      const mktValue = percentage ? item[yFieldName].value * 100 : item[yFieldName].value;
       return [date, this.round(mktValue, config.decimals)];
     });
-    console.log("convertedData: ");
-    console.log(JSON.stringify(convertedData));
-    const dimensionLabel = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
-    const yLabel = config.custom_y_axis_name || queryResponse.fields.table_calculations[0].label_short || queryResponse.fields.table_calculations[0].label;
-    const visObjectThis = this;
+    return convertedData;
+  },
 
+  drawChart: function (containerId, data, xLabel, yLabel, config) {
+    const visObjectThis = this;
     Highcharts.stockChart(containerId, {
       credits: {
         enabled: false,
@@ -171,7 +192,7 @@ const visObject = {
       scrollbar: {
         enabled: false
       },
-      chart:{
+      chart: {
         style: {
           height: "100%"
         }
@@ -195,62 +216,7 @@ const visObject = {
       },
 
       series: [{
-        data: convertedData
-
-      }]
-    });
-  },
-  generateNormalHighChartLine: function (queryResponse, data, config, containerId) {
-    let measureName = queryResponse.fields.measures[0].name;
-    let dimensionName = queryResponse.fields.dimensions[0].name;
-    const convertedData = data.map(item => {
-      const date = new Date(item[dimensionName].value).getTime();
-      const mktValue = item[measureName].value;
-      return [date, mktValue];
-    });
-    // console.log("----------------Converted Data------------------------")
-    // console.log(JSON.stringify(convertedData));
-    const measureLabelName = queryResponse.fields.measures[0].label_short;
-    const dimensionLabelName = queryResponse.fields.dimensions[0].label_short;
-    const visObjectThis = this;
-
-    Highcharts.stockChart(containerId, {
-      credits: {
-        enabled: false,
-      },
-      exporting: {
-        enabled: false,
-      },
-      rangeSelector: {
-        enabled: false,
-        selected: 1
-      },
-      navigator: {
-        enabled: false,
-      },
-      scrollbar: {
-        enabled: false
-      },
-
-      tooltip: {
-        // className: "tooltipdiv",
-        backgroundColor: "#262D33",
-        style: {
-          color: 'white'
-        },
-        borderWidth: 0,
-        shadow: false,
-        useHTML: true,
-        formatter: function () {
-          const date = visObjectThis.dateformat(this.x, config.date_format);
-          const amount = visObjectThis.formatMoney(this.y, 2, '');
-          return '<div style="height:20px">' + dimensionLabelName + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
-            measureLabelName + '</div><div><b>' + amount + '</b></div>';
-        }
-      },
-
-      series: [{
-        data: convertedData
+        data: data
 
       }]
     });
