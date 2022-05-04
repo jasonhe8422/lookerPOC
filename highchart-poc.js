@@ -95,6 +95,7 @@ const visObject = {
         }
       </style>
     `;
+    element.style.height = "100%";
     let container = document.createElement("div");
     element.appendChild(container);
 
@@ -165,6 +166,9 @@ const visObject = {
       },
       scrollbar: {
         enabled: false
+      },
+      chart:{
+        height: "100%"
       },
 
       tooltip: {
