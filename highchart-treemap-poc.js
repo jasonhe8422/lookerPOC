@@ -78,7 +78,7 @@ const visObject = {
       const name = item[dimensionFieldName].value;
       return {
         name: name,
-        value: value,
+        value: this.formatMoney(value,2,''),
         colorValue: index + 1
       };
     });
@@ -90,6 +90,27 @@ const visObject = {
       colorAxis: {
         minColor: '#FFFFFF',
         maxColor: Highcharts.getOptions().colors[0]
+      },
+      credits: {
+        enabled: false,
+      },
+      exporting: {
+        enabled: false,
+      },
+      rangeSelector: {
+        enabled: false,
+        selected: 1
+      },
+      navigator: {
+        enabled: false,
+      },
+      scrollbar: {
+        enabled: false
+      },
+      chart: {
+        style: {
+          height: "100%"
+        }
       },
       series: [{
         type: 'treemap',
