@@ -34,7 +34,7 @@ const visObject = {
     value_label_color:{
       section:"Plot",
       type: "array",
-      display: "colors",
+      display: "color",
       label: "Value Labels Palette",
       default: ["#62bad4", "#a9c574", "#929292", "#9fdee0", "#1f3e5a", "#90c8ae", "#92818d", "#c5c6a6", "#82c2ca", "#cee0a0", "#928fb4", "#9fc190"]
     },
