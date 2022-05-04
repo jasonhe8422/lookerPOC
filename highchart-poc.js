@@ -215,7 +215,7 @@ const visObject = {
         title: {
           text: xTitle
         },
-        width:"95%",
+        width: config.display_y_axis_title ? "95%" : "100%",
       },
       yAxis: {
         title: {
