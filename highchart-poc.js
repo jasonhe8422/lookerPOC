@@ -70,6 +70,11 @@ const visObject = {
       type: "boolean",
       label: "Display Y Axis title",
       default: true
+    },
+    decimals_y_axis_label: {
+      section: "Y",
+      type: "number",
+      label: "Decimals"
     }
   },
 
@@ -223,10 +228,12 @@ const visObject = {
         },
         labels: {
           formatter: function () {
+            const decimals = config.decimals_y_axis_label || 0;
+            let label = visObjectThis.formatMoney(this.value, decimals, '');
             if (config.percentage) {
-              return this.value + "%";
+              return label + "%";
             }
-            return this.value;
+            return label;
           }
         }
       },
