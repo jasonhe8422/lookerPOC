@@ -99,7 +99,8 @@ const visObject = {
       const mktValue = item[yName].value;
       return [date, mktValue];
     });
-
+    console.log("convertedData: ");
+    console.log(JSON.stringify(convertedData));
     const dimensionLabel = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
     const yLabel = config.custom_y_axis_name || queryResponse.fields.table_calculations[0].label_short || queryResponse.fields.table_calculations[0].label;
     const visObjectThis = this;
