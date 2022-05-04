@@ -29,13 +29,13 @@ const visObject = {
       section: "Data",
       type: "boolean",
       label: "Value Labels",
-      default: "false"
+      default: false
     },
     percentage: {
       section: "Data",
       type: "boolean",
       label: "Percentage(%)",
-      default: "false"
+      default: false
     },
     decimals: {
       section: "Data",
@@ -47,7 +47,7 @@ const visObject = {
       section: "Data",
       type: "boolean",
       label: "Sort By X Axis",
-      default: "false"
+      default: false
     },
     custom_x_axis_name: {
       section: "X",
@@ -247,7 +247,6 @@ const visObject = {
   },
 
   dateformat: function (timestamp, format) {
-    console.log("dateformat: "+timestamp+"--"+format);
     return moment(new Date(timestamp)).format(format);
   },
 
