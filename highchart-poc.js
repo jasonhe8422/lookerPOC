@@ -100,8 +100,8 @@ const visObject = {
     // `;
     element.style.height = "100%";
     // element.className = "vis_container";
-    let container = document.createElement("div");
-    element.appendChild(container);
+    // let container = document.createElement("div");
+    // element.appendChild(container);
 
 
     // Throw some errors and exit if the shape of the data isn't what this chart needs.
@@ -111,7 +111,7 @@ const visObject = {
       return;
     }
     let containerId = "container:" + new Date().getTime();
-    container.id = containerId;
+    element.id = containerId;
 
     const hasTableCalculation = queryResponse.fields.table_calculations && queryResponse.fields.table_calculations.length > 0;
     const hasMeasures = queryResponse.fields.measures && queryResponse.fields.measures.length > 0;
