@@ -26,7 +26,7 @@ const visObject = {
    **/
   create: function (element, config) {
     // element.innerHTML = "<h1>Ready to render!</h1>";
-    
+
   },
 
   /**
@@ -38,12 +38,12 @@ const visObject = {
     this.clearErrors();
     console.log("config: ");
     console.log(JSON.stringify(config));
-        console.log("queryResponse: ");
+    console.log("queryResponse: ");
     console.log(JSON.stringify(queryResponse));
-        console.log("data: ");
+    console.log("data: ");
     console.log(JSON.stringify(data));
-   // element.style.innerHTML = defaultTheme;
-     element.innerHTML = `
+    // element.style.innerHTML = defaultTheme;
+    element.innerHTML = `
       <style>
         .tooltipdiv{
           font-family: "Open Sans",Helvetica,Arial,sans-serif;
@@ -54,9 +54,9 @@ const visObject = {
         }
       </style>
     `;
-		let container = document.createElement("div");
-		element.appendChild(container);
-    
+    let container = document.createElement("div");
+    element.appendChild(container);
+
 
     // Throw some errors and exit if the shape of the data isn't what this chart needs.
     if (!queryResponse.fields.dimensions || queryResponse.fields.dimensions.length == 0) {
@@ -64,13 +64,21 @@ const visObject = {
       this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
       return;
     }
+
+    let containerId = "container:" + new Date().getTime();
+    container.id = containerId;
     if (!queryResponse.fields.measures || queryResponse.fields.measures.length == 0) {
       console.error("This chart requires measures.");
       this.addError({title: "No Dimensions", message: "This chart requires measures."});
       return;
     }
-    let containerId = "container:" + new Date().getTime();
-    container.id = containerId;
+
+    this.generateNormalHighChartLine(queryResponse, data);
+
+    doneRendering()
+  },
+
+  generateNormalHighChartLine: function(queryResponse, data){
     let measureName = queryResponse.fields.measures[0].name;
     let dimensionName = queryResponse.fields.dimensions[0].name;
     const convertedData = data.map(item => {
@@ -124,8 +132,6 @@ const visObject = {
 
       }]
     });
-
-    doneRendering()
   },
 
   dateformat: function (timestamp)
