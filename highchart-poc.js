@@ -277,7 +277,10 @@ const visObject = {
         useHTML: true,
         formatter: function () {
           const date = visObjectThis.dateformat(this.x, config.date_format);
-          const amount = visObjectThis.formatMoney(this.y, config.decimals, '');
+          let amount = visObjectThis.formatMoney(this.y, config.decimals, '');
+          if (config.percentage) {
+            amount = amount + "%";
+          }
           return '<div style="height:20px">' + xLabel + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
             yLabel + '</div><div><b>' + amount + '</b></div>';
         }
