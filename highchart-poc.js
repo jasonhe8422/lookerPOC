@@ -19,6 +19,12 @@ const visObject = {
       display: "radio",
       values: [{"US": "US"}, {"CL": "CL"}]
     },
+    date_format:{
+      section: "Plot",
+      type: "string",
+      label: "Date Format",
+      default: "YYYY-MM-DD"
+    },
     value_labels: {
       section: "Data",
       type: "boolean",
@@ -172,7 +178,7 @@ const visObject = {
         useHTML: true,
         formatter: function () {
           const date = visObjectThis.dateformat(this.x);
-          const amount = visObjectThis.formatMoney(this.y, 2, '');
+          const amount = visObjectThis.formatMoney(this.y, config.decimals, '');
           return '<div style="height:20px">' + dimensionLabel + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
             yLabel + '</div><div><b>' + amount + '</b></div>';
         }
@@ -240,12 +246,13 @@ const visObject = {
     });
   },
 
-  dateformat: function (timestamp) {
+  dateformat: function (timestamp, format) {
     const time = new Date(timestamp);
-    let y = time.getFullYear();
-    let m = time.getMonth() + 1;
-    let d = time.getDate();
-    return y + '-' + add0(m) + '-' + add0(d);
+    return moment(time).format(format);
+    // let y = time.getFullYear();
+    // let m = time.getMonth() + 1;
+    // let d = time.getDate();
+    // return y + '-' + add0(m) + '-' + add0(d);
   },
 
   dateTimeFormat: function (timestamp) {
