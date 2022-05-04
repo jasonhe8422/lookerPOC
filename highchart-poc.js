@@ -26,10 +26,16 @@ const visObject = {
       default: "YYYY-MM-DD"
     },
     value_labels: {
-      section: "Data",
+      section: "Plot",
       type: "boolean",
       label: "Value Labels",
       default: false
+    },
+    enable_mouse_tracking: {
+      section: "Plot",
+      type: "boolean",
+      label: "Enable Mouse Tracking",
+      default: true
     },
     percentage: {
       section: "Data",
@@ -151,8 +157,8 @@ const visObject = {
     const yName = queryResponse.fields.table_calculations[0].name;
     const convertedData = this.convertData(dimensionName, yName, data, config);
 
-    console.log("convertedData: ");
-    console.log(JSON.stringify(convertedData));
+    // console.log("convertedData: ");
+    // console.log(JSON.stringify(convertedData));
     const dimensionLabel = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
     const yLabel = config.custom_y_axis_name || queryResponse.fields.table_calculations[0].label_short || queryResponse.fields.table_calculations[0].label;
     this.drawChart(containerId, convertedData, dimensionLabel, yLabel, config);
@@ -235,6 +241,14 @@ const visObject = {
             }
             return label;
           }
+        }
+      },
+      plotOptions: {
+        line: {
+          dataLabels: {
+            enabled: config.value_labels
+          },
+          enableMouseTracking: config.enable_mouse_tracking
         }
       },
       tooltip: {
