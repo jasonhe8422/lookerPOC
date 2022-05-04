@@ -247,25 +247,13 @@ const visObject = {
   },
 
   dateformat: function (timestamp, format) {
-    const time = new Date(timestamp);
-    return moment(time).format(format);
+    console.log("dateformat: "+timestamp+"--"+format);
+    return moment(new Date(timestamp)).format(format);
     // let y = time.getFullYear();
     // let m = time.getMonth() + 1;
     // let d = time.getDate();
     // return y + '-' + add0(m) + '-' + add0(d);
   },
-
-  dateTimeFormat: function (timestamp) {
-    const time = new Date(timestamp);
-    let y = time.getFullYear();
-    let m = time.getMonth() + 1;
-    let d = time.getDate();
-    let h = time.getHours();
-    let mm = time.getMinutes();
-    let s = time.getSeconds();
-    return y + '-' + add0(m) + '-' + add0(d) + ' ' + add0(h) + ':' + add0(mm) + ':' + add0(s);
-  },
-
 
   formatMoney: function (number, places, symbol, thousand, decimal) {
     number = number || 0;
