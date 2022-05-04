@@ -13,10 +13,21 @@ const visObject = {
    **/
   options: {
     display_style: {
+      section: "Plot",
       type: "string",
       label: "Display Style",
       display: "radio",
-      values: [{"US":"US"},{"CL":"CL"}]
+      values: [{"US": "US"}, {"CL": "CL"}]
+    },
+    custom_x_axis_name: {
+      section: "X",
+      type: "string",
+      label: "Custom Axis Name"
+    },
+    custom_y_axis_name: {
+      section: "Y",
+      type: "string",
+      label: "Custom Axis Name"
     }
   },
 
@@ -67,18 +78,74 @@ const visObject = {
 
     let containerId = "container:" + new Date().getTime();
     container.id = containerId;
-    if (!queryResponse.fields.measures || queryResponse.fields.measures.length == 0) {
-      console.error("This chart requires measures.");
-      this.addError({title: "No Dimensions", message: "This chart requires measures."});
-      return;
+    const hasTableCalculation = queryResponse.fields.table_calculations && queryResponse.fields.table_calculations.length > 0;
+    const hasMeasures = queryResponse.fields.measures && queryResponse.fields.measures.length > 0;
+    if (hasTableCalculation) {
+      this.generateCalculationHighChartLine(queryResponse, data);
+    }else if(hasMeasures){
+      this.generateNormalHighChartLine(queryResponse, data);
+    }else{
+      console.error("neither table_calculations nor measures can be found in query response.");
+      this.addError({title: "No table_calculations and measures", message: "Neither table_calculations nor measures can be found in query response."});
     }
-
-    this.generateNormalHighChartLine(queryResponse, data);
-
     doneRendering()
   },
+  generateCalculationHighChartLine: function (queryResponse, data, config) {
+    const dimensionName = queryResponse.fields.dimensions[0].name;
+    const yName = queryResponse.fields.table_calculations[0].name;
 
-  generateNormalHighChartLine: function(queryResponse, data){
+    const convertedData = data.map(item => {
+      const date = new Date(item[dimensionName].value).getTime();
+      const mktValue = item[yName].value;
+      return [date, mktValue];
+    });
+
+    const dimensionLabel = queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
+    const yLabel = queryResponse.fields.table_calculations[0].label_short || queryResponse.fields.table_calculations[0].label;
+    const visObjectThis = this;
+
+    Highcharts.stockChart(containerId, {
+      credits: {
+        enabled: false,
+      },
+      exporting: {
+        enabled: false,
+      },
+      rangeSelector: {
+        enabled: false,
+        selected: 1
+      },
+      navigator: {
+        enabled: false,
+      },
+      scrollbar: {
+        enabled: false
+      },
+
+      tooltip: {
+        className: "tooltipdiv",
+        backgroundColor: "#262D33",
+        style: {
+          color: 'white'
+        },
+        borderWidth: 0,
+        shadow: false,
+        useHTML: true,
+        formatter: function () {
+          const date = visObjectThis.dateformat(this.x);
+          const amount = visObjectThis.formatMoney(this.y, 2, '');
+          return '<div style="height:20px">' + dimensionLabelName + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
+            measureLabelName + '</div><div><b>' + amount + '</b></div>';
+        }
+      },
+
+      series: [{
+        data: convertedData
+
+      }]
+    });
+  },
+  generateNormalHighChartLine: function (queryResponse, data) {
     let measureName = queryResponse.fields.measures[0].name;
     let dimensionName = queryResponse.fields.dimensions[0].name;
     const convertedData = data.map(item => {
@@ -119,11 +186,11 @@ const visObject = {
         borderWidth: 0,
         shadow: false,
         useHTML: true,
-        formatter: function() {
+        formatter: function () {
           const date = visObjectThis.dateformat(this.x);
-          const amount = visObjectThis.formatMoney(this.y,2,'');
-          return '<div style="height:20px">'+dimensionLabelName + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">'+
-            measureLabelName + '</div><div><b>' + amount+'</b></div>';
+          const amount = visObjectThis.formatMoney(this.y, 2, '');
+          return '<div style="height:20px">' + dimensionLabelName + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
+            measureLabelName + '</div><div><b>' + amount + '</b></div>';
         }
       },
 
@@ -134,29 +201,27 @@ const visObject = {
     });
   },
 
-  dateformat: function (timestamp)
-  {
+  dateformat: function (timestamp) {
     const time = new Date(timestamp);
     let y = time.getFullYear();
-    let m = time.getMonth()+1;
+    let m = time.getMonth() + 1;
     let d = time.getDate();
-    return y+'-'+add0(m)+'-'+add0(d);
+    return y + '-' + add0(m) + '-' + add0(d);
   },
 
-  dateTimeFormat: function (timestamp)
-  {
+  dateTimeFormat: function (timestamp) {
     const time = new Date(timestamp);
     let y = time.getFullYear();
-    let m = time.getMonth()+1;
+    let m = time.getMonth() + 1;
     let d = time.getDate();
     let h = time.getHours();
     let mm = time.getMinutes();
     let s = time.getSeconds();
-    return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+    return y + '-' + add0(m) + '-' + add0(d) + ' ' + add0(h) + ':' + add0(mm) + ':' + add0(s);
   },
 
 
-  formatMoney: function (number, places, symbol, thousand, decimal){
+  formatMoney: function (number, places, symbol, thousand, decimal) {
     number = number || 0;
     places = !isNaN(places = Math.abs(places)) ? places : 2;
     symbol = symbol !== undefined ? symbol : "$";
@@ -175,7 +240,9 @@ const visObject = {
 
 looker.plugins.visualizations.add(visObject);
 
-function add0 (m){return m<10?'0'+m:m }
+function add0(m) {
+  return m < 10 ? '0' + m : m
+}
 
 
 
