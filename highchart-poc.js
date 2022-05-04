@@ -94,7 +94,7 @@ const visObject = {
     const dimensionName = queryResponse.fields.dimensions[0].name;
     const yName = queryResponse.fields.table_calculations[0].name;
 
-    const convertedData = data.map(item => {
+    const convertedData = data.filter(item=>item[yName].value).map(item => {
       const date = new Date(item[dimensionName].value).getTime();
       const mktValue = item[yName].value;
       return [date, mktValue];
