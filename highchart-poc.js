@@ -12,13 +12,13 @@ const visObject = {
    * panel but here, you can just manually set your default values in the code.
    **/
   options: {
-    display_style: {
-      section: "Plot",
-      type: "string",
-      label: "Display Style",
-      display: "radio",
-      values: [{"US": "US"}, {"CL": "CL"}]
-    },
+    // display_style: {
+    //   section: "Plot",
+    //   type: "string",
+    //   label: "Display Style",
+    //   display: "radio",
+    //   values: [{"US": "US"}, {"CL": "CL"}]
+    // },
     date_format: {
       section: "Plot",
       type: "string",
@@ -89,12 +89,12 @@ const visObject = {
   updateAsync: function (data, element, config, queryResponse, details, doneRendering) {
     // Clear any errors from previous updates.
     this.clearErrors();
-    console.log("config: ");
-    console.log(JSON.stringify(config));
-    console.log("queryResponse: ");
-    console.log(JSON.stringify(queryResponse));
-    console.log("data: ");
-    console.log(JSON.stringify(data));
+    // console.log("config: ");
+    // console.log(JSON.stringify(config));
+    // console.log("queryResponse: ");
+    // console.log(JSON.stringify(queryResponse));
+    // console.log("data: ");
+    // console.log(JSON.stringify(data));
     // element.style.innerHTML = defaultTheme;
     // element.innerHTML = `
     //   <style>
@@ -159,8 +159,8 @@ const visObject = {
     const convertedData = this.convertData(dimensionName, measureName, data, config);
     // console.log("----------------Converted Data------------------------")
     // console.log(JSON.stringify(convertedData));
-    const measureLabelName = queryResponse.fields.measures[0].label_short;
-    const dimensionLabelName = queryResponse.fields.dimensions[0].label_short;
+    const measureLabelName = config.custom_y_axis_name || queryResponse.fields.measures[0].label_short || queryResponse.fields.measures[0].label;
+    const dimensionLabelName = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
     this.drawChart(containerId, convertedData, dimensionLabelName, measureLabelName, config);
   },
 
@@ -187,8 +187,8 @@ const visObject = {
 
   drawChart: function (containerId, data, xLabel, yLabel, config) {
     const visObjectThis = this;
-    const xTitle = config.display_x_axis_title ? config.custom_x_axis_name || "" : "";
-    const yTitle = config.display_y_axis_title ? config.custom_y_axis_name || "" : "";
+    const xTitle = config.display_x_axis_title ? xLabel || "" : "";
+    const yTitle = config.display_y_axis_title ? yLabel || "" : "";
     Highcharts.stockChart(containerId, {
       credits: {
         enabled: false,
