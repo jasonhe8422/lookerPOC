@@ -54,10 +54,22 @@ const visObject = {
       type: "string",
       label: "Custom Axis Name"
     },
+    display_x_axis_title: {
+      section: "X",
+      type: "boolean",
+      label: "Display X Axis title",
+      default: true
+    },
     custom_y_axis_name: {
       section: "Y",
       type: "string",
       label: "Custom Axis Name"
+    },
+    display_y_axis_title: {
+      section: "Y",
+      type: "boolean",
+      label: "Display Y Axis title",
+      default: true
     }
   },
 
@@ -175,6 +187,8 @@ const visObject = {
 
   drawChart: function (containerId, data, xLabel, yLabel, config) {
     const visObjectThis = this;
+    const xTitle = config.display_x_axis_title ? config.custom_x_axis_name || "" : "";
+    const yTitle = config.display_y_axis_title ? config.custom_y_axis_name || "" : "";
     Highcharts.stockChart(containerId, {
       credits: {
         enabled: false,
@@ -197,7 +211,24 @@ const visObject = {
           height: "100%"
         }
       },
-
+      xAxis: {
+        title: {
+          text: xTitle
+        }
+      },
+      yAxis: {
+        title: {
+          text: yTitle
+        },
+        labels: {
+          formatter: function () {
+            if (config.percentage) {
+              return this.value + "%";
+            }
+            return this.value;
+          }
+        }
+      },
       tooltip: {
         // className: "tooltipdiv",
         backgroundColor: "#262D33",
