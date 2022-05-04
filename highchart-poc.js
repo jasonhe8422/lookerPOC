@@ -37,6 +37,12 @@ const visObject = {
       label: "Decimals",
       default: 2
     },
+    sort_by_x: {
+      section: "Data",
+      type: "boolean",
+      label: "Sort By X Axis",
+      default: "false"
+    },
     custom_x_axis_name: {
       section: "X",
       type: "string",
@@ -115,6 +121,17 @@ const visObject = {
     const dimensionName = queryResponse.fields.dimensions[0].name;
     const yName = queryResponse.fields.table_calculations[0].name;
     const percentage = config.percentage;
+    if (config.sort_by_x) {
+      data = data.filter(item => item[dimensionName].value).sort((a, b) => {
+        if (a[dimensionName].value < b[dimensionName].value) {
+          return -1;
+        } else if (a[dimensionName].value > b[dimensionName].value) {
+          return 1;
+        } else {
+          return 0;
+        }
+      })
+    }
     const convertedData = data.filter(item => item[yName].value).map(item => {
       const date = new Date(item[dimensionName].value).getTime();
       const mktValue = percentage ? item[yName].value * 100 : item[yName].value;
@@ -258,13 +275,13 @@ const visObject = {
         Math.abs(number - i).toFixed(places).slice(2) : "");
   },
 
-  round: function (numberRound,roundDigit) {
-    if (numberRound>=0){
-      var tempNumber = parseInt((numberRound * Math.pow(10,roundDigit)+0.5))/Math.pow(10,roundDigit);
+  round: function (numberRound, roundDigit) {
+    if (numberRound >= 0) {
+      var tempNumber = parseInt((numberRound * Math.pow(10, roundDigit) + 0.5)) / Math.pow(10, roundDigit);
       return tempNumber;
-    } else{
-      numberRound1=-numberRound;
-      var tempNumber = parseInt((numberRound1 * Math.pow(10,roundDigit)+0.5))/Math.pow(10,roundDigit);
+    } else {
+      numberRound1 = -numberRound;
+      var tempNumber = parseInt((numberRound1 * Math.pow(10, roundDigit) + 0.5)) / Math.pow(10, roundDigit);
       return -tempNumber;
     }
   }
