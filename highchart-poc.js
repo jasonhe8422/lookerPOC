@@ -93,9 +93,13 @@ const visObject = {
           overflow: none;
           white-space: nowrap;
         }
+        .vis_container{
+            height: 100%
+        }
       </style>
     `;
-    element.style.height = "100%";
+    // element.style.height = "100%";
+    element.className = "vis_container";
     let container = document.createElement("div");
     element.appendChild(container);
 
