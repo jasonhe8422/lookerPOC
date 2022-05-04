@@ -172,7 +172,9 @@ const visObject = {
         enabled: false
       },
       chart:{
-        height: "100%"
+        style: {
+          height: "100%"
+        }
       },
 
       tooltip: {
