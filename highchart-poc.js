@@ -100,8 +100,8 @@ const visObject = {
       return [date, mktValue];
     });
 
-    const dimensionLabel = queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
-    const yLabel = queryResponse.fields.table_calculations[0].label_short || queryResponse.fields.table_calculations[0].label;
+    const dimensionLabel = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
+    const yLabel = config.custom_y_axis_name || queryResponse.fields.table_calculations[0].label_short || queryResponse.fields.table_calculations[0].label;
     const visObjectThis = this;
 
     Highcharts.stockChart(containerId, {
@@ -134,8 +134,8 @@ const visObject = {
         formatter: function () {
           const date = visObjectThis.dateformat(this.x);
           const amount = visObjectThis.formatMoney(this.y, 2, '');
-          return '<div style="height:20px">' + dimensionLabelName + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
-            measureLabelName + '</div><div><b>' + amount + '</b></div>';
+          return '<div style="height:20px">' + dimensionLabel + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
+            yLabel + '</div><div><b>' + amount + '</b></div>';
         }
       },
 
