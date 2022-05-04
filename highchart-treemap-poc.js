@@ -87,13 +87,13 @@ const visObject = {
   },
 
   drawChart: function (containerId, data, xLabel, yLabel, config) {
-    var chart = Highcharts.chart(containerId, {
+    Highcharts.chart('container', {
       colorAxis: {
         minColor: '#FFFFFF',
         maxColor: Highcharts.getOptions().colors[0]
       },
       series: [{
-        type: "treemap",
+        type: 'treemap',
         layoutAlgorithm: 'squarified',
         data: [{
           name: 'A',
@@ -126,14 +126,11 @@ const visObject = {
         }]
       }],
       title: {
-        text: '矩形树图'
+        text: 'Highcharts Treemap'
       }
     });
   },
 
-  dateformat: function (timestamp, format) {
-    return moment(new Date(timestamp)).format(format);
-  },
 
   formatMoney: function (number, places, symbol, thousand, decimal) {
     number = number || 0;
