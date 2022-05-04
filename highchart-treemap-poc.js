@@ -97,15 +97,8 @@ const visObject = {
       exporting: {
         enabled: false,
       },
-      rangeSelector: {
-        enabled: false,
-        selected: 1
-      },
       navigator: {
         enabled: false,
-      },
-      scrollbar: {
-        enabled: false
       },
       chart: {
         style: {
