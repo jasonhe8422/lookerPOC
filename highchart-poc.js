@@ -5,6 +5,7 @@
  *  - Example Visualizations - https://github.com/looker/custom_visualizations_v2/tree/master/src/examples
  **/
 
+
 const visObject = {
   /**
    * Configuration options for your visualization. In Looker, these show up in the vis editor
@@ -25,6 +26,7 @@ const visObject = {
    **/
   create: function (element, config) {
     // element.innerHTML = "<h1>Ready to render!</h1>";
+    
   },
 
   /**
@@ -36,18 +38,39 @@ const visObject = {
     this.clearErrors();
     console.log("config: ");
     console.log(JSON.stringify(config));
+        console.log("queryResponse: ");
+    console.log(JSON.stringify(queryResponse));
+        console.log("data: ");
+    console.log(JSON.stringify(data));
+   // element.style.innerHTML = defaultTheme;
+     element.innerHTML = `
+      <style>
+        .tooltipdiv{
+          font-family: "Open Sans",Helvetica,Arial,sans-serif;
+          font-size: 100px;
+          pointer-events: none;
+          overflow: none;
+          white-space: nowrap;
+        }
+      </style>
+    `;
+		let container = document.createElement("div");
+		element.appendChild(container);
+    
 
     // Throw some errors and exit if the shape of the data isn't what this chart needs.
     if (!queryResponse.fields.dimensions || queryResponse.fields.dimensions.length == 0) {
+      console.error("This chart requires dimensions.");
       this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
       return;
     }
     if (!queryResponse.fields.measures || queryResponse.fields.measures.length == 0) {
+      console.error("This chart requires measures.");
       this.addError({title: "No Dimensions", message: "This chart requires measures."});
       return;
     }
     let containerId = "container:" + new Date().getTime();
-    element.id = containerId;
+    container.id = containerId;
     let measureName = queryResponse.fields.measures[0].name;
     let dimensionName = queryResponse.fields.dimensions[0].name;
     const convertedData = data.map(item => {
@@ -80,6 +103,7 @@ const visObject = {
       },
 
       tooltip: {
+        className: "tooltipdiv",
         backgroundColor: "#262D33",
         style: {
           color: 'white'
