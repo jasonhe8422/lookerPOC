@@ -86,6 +86,7 @@ const visObject = {
   },
 
   drawChart: function (containerId, data, config) {
+    const visObjectThis = this;
     Highcharts.chart(containerId, {
       colorAxis: {
         minColor: '#FFFFFF',
@@ -99,6 +100,26 @@ const visObject = {
       },
       navigator: {
         enabled: false,
+      },
+      tooltip: {
+        // className: "tooltipdiv",
+        backgroundColor: "#262D33",
+        style: {
+          color: 'white'
+        },
+        borderWidth: 0,
+        shadow: false,
+        useHTML: true,
+        formatter: function () {
+          console.log(this);
+          let amount = visObjectThis.formatMoney(this.value, 2, '');
+          if (config.percentage) {
+            amount = amount + "%";
+          }
+          return amount;
+          // return '<div style="height:20px">' + xLabel + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
+          //   yLabel + '</div><div><b>' + amount + '</b></div>';
+        }
       },
       series: [{
         type: 'treemap',
