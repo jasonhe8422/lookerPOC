@@ -214,7 +214,8 @@ const visObject = {
       xAxis: {
         title: {
           text: xTitle
-        }
+        },
+        width:"95%",
       },
       yAxis: {
         title: {
