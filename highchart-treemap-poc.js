@@ -100,11 +100,6 @@ const visObject = {
       navigator: {
         enabled: false,
       },
-      chart: {
-        style: {
-          height: "100%"
-        }
-      },
       series: [{
         type: 'treemap',
         layoutAlgorithm: 'squarified',
