@@ -75,22 +75,22 @@ const visObject = {
       this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
       return;
     }
+    let containerId = "container:" + new Date().getTime();
+    container.id = containerId;
 
     const hasTableCalculation = queryResponse.fields.table_calculations && queryResponse.fields.table_calculations.length > 0;
     const hasMeasures = queryResponse.fields.measures && queryResponse.fields.measures.length > 0;
     if (hasTableCalculation) {
-      this.generateCalculationHighChartLine(queryResponse, data);
+      this.generateCalculationHighChartLine(queryResponse, data, config, containerId);
     }else if(hasMeasures){
-      this.generateNormalHighChartLine(queryResponse, data);
+      this.generateNormalHighChartLine(queryResponse, data, config, containerId);
     }else{
       console.error("neither table_calculations nor measures can be found in query response.");
       this.addError({title: "No table_calculations and measures", message: "Neither table_calculations nor measures can be found in query response."});
     }
     doneRendering()
   },
-  generateCalculationHighChartLine: function (queryResponse, data, config) {
-    let containerId = "container:" + new Date().getTime();
-    container.id = containerId;
+  generateCalculationHighChartLine: function (queryResponse, data, config, containerId) {
     const dimensionName = queryResponse.fields.dimensions[0].name;
     const yName = queryResponse.fields.table_calculations[0].name;
 
@@ -145,9 +145,7 @@ const visObject = {
       }]
     });
   },
-  generateNormalHighChartLine: function (queryResponse, data) {
-    let containerId = "container:" + new Date().getTime();
-    container.id = containerId;
+  generateNormalHighChartLine: function (queryResponse, data, config, containerId) {
     let measureName = queryResponse.fields.measures[0].name;
     let dimensionName = queryResponse.fields.dimensions[0].name;
     const convertedData = data.map(item => {
