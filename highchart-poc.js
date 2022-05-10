@@ -108,8 +108,8 @@ const visObject = {
     this.clearErrors();
     // console.log("config: ");
     // console.log(JSON.stringify(config));
-    // console.log("queryResponse: ");
-    // console.log(JSON.stringify(queryResponse));
+    console.log("queryResponse: ");
+    console.log(JSON.stringify(queryResponse));
     // console.log("data: ");
     // console.log(JSON.stringify(data));
     // element.style.innerHTML = defaultTheme;
@@ -263,6 +263,17 @@ const visObject = {
             }
           },
           enableMouseTracking: config.enable_mouse_tracking
+        },
+        series: {
+          events: {
+            click: function (event) {
+              console.log(JSON.stringify(event));
+              console.log(this.name + ' clicked\n' +
+                'Alt: ' + event.altKey + '\n' +
+                'Control: ' + event.ctrlKey + '\n' +
+                'Shift: ' + event.shiftKey + '\n');
+            }
+          }
         }
       },
       tooltip: {
@@ -329,7 +340,6 @@ looker.plugins.visualizations.add(visObject);
 function add0(m) {
   return m < 10 ? '0' + m : m
 }
-
 
 
 
