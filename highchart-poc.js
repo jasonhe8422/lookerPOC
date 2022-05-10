@@ -138,9 +138,9 @@ const visObject = {
     // `;
     element.style.height = "100%";
     // element.className = "vis_container";
-    const drillIntoDiv = document.createElement("div");
-    drillIntoDiv.id = "drillInto-" + new Date().getTime();
-    element.appendChild(drillIntoDiv);
+    // const drillIntoDiv = document.createElement("div");
+    // drillIntoDiv.id = "drillInto-" + new Date().getTime();
+    // element.appendChild(drillIntoDiv);
 
 
     // Throw some errors and exit if the shape of the data isn't what this chart needs.
