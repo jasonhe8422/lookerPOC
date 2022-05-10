@@ -299,7 +299,7 @@ const visObject = {
               // console.log((JSON.stringify(drillLinks)));
               console.log(JSON.stringify(LookerCharts.Utils.prototype));
               if (drillLinks.length == 1) {
-                LookerCharts.Utils.openDrill(drillLinks[0]);
+                LookerCharts.Utils.openUrl(drillLinks[0].url);
               } else if (drillLinks.length > 1) {
                 LookerCharts.Utils.openDrillMenu({
                   links: drillLinks,
