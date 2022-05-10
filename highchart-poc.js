@@ -194,12 +194,17 @@ const visObject = {
         }
       })
     }
+    let links = [];
     const convertedData = data.filter(item => item[yFieldName].value).map(item => {
+      links.push(item[xFieldName].links);
       const date = new Date(item[xFieldName].value).getTime();
       const mktValue = percentage ? item[yFieldName].value * 100 : item[yFieldName].value;
       return [date, this.round(mktValue, config.decimals)];
     });
-    return convertedData;
+    return {
+      "convertedData":convertedData,
+      "links":links
+    };
   },
 
   drawChart: function (containerId, data, xLabel, yLabel, config) {
@@ -269,9 +274,17 @@ const visObject = {
             click: function (event) {
               console.log(JSON.stringify(event));
               console.log(this.name + ' clicked\n' +
-                'Alt: ' + event.altKey + '\n' +
+                'index: ' + event.point.index + '\n' +
                 'Control: ' + event.ctrlKey + '\n' +
                 'Shift: ' + event.shiftKey + '\n');
+              const drillLinks = data.links[event.point.index].map(item=> {
+                return {"label": item.label, "type": 'drill', "type_label": "string", "url": item.url };
+              })
+              console.log((JSON.stringify(drillLinks)));
+              LookerCharts.Utils.openDrillMenu({
+                links: drillLinks,
+                event: event
+              });
             }
           }
         }
@@ -297,7 +310,7 @@ const visObject = {
       },
 
       series: [{
-        data: data
+        data: data.convertedData
 
       }]
     });
