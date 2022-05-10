@@ -116,10 +116,10 @@ const visObject = {
     this.clearErrors();
     // console.log("config: ");
     // console.log(JSON.stringify(config));
-    console.log("queryResponse: ");
-    console.log(JSON.stringify(queryResponse));
-    console.log("data: ");
-    console.log(JSON.stringify(data));
+    // console.log("queryResponse: ");
+    // console.log(JSON.stringify(queryResponse));
+    // console.log("data: ");
+    // console.log(JSON.stringify(data));
     // element.style.innerHTML = defaultTheme;
     // element.innerHTML = `
     //   <style>
@@ -209,7 +209,6 @@ const visObject = {
       if (config.drill_into == 'Y') {
         drillIntoFieldName = yFieldName;
       }
-      console.log("item[drillIntoFieldName].links:   "+drillIntoFieldName);
       links.push(item[drillIntoFieldName].links ? item[drillIntoFieldName].links : []);
       const date = new Date(item[xFieldName].value).getTime();
       const mktValue = percentage ? item[yFieldName].value * 100 : item[yFieldName].value;
@@ -286,10 +285,6 @@ const visObject = {
         series: {
           events: {
             click: function (event) {
-              console.log(this.name + ' clicked\n' +
-                'index: ' + event.point.index + '\n' +
-                'x: ' + event.point.options.x + '\n' +
-                'Shift: ' + visObjectThis.dateformat(event.point.options.x, config.date_format) + '\n');
               const drillLinks = data.links[event.point.index].map(item => {
                 return {
                   "label": item.label,
@@ -300,7 +295,6 @@ const visObject = {
               })
               console.log(drillLinks.length);
               if (drillLinks.length > 0) {
-                console.log("---------00000-------");
                 LookerCharts.Utils.openDrillMenu({
                   links: drillLinks,
                   event: event
