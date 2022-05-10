@@ -64,7 +64,7 @@ const visObject = {
     drill_into: {
       section: "Data",
       type: "string",
-      label:"Drill into",
+      label: "Drill into",
       display: "radio",
       values: [{"X": "X"}, {"Y": "Y"}],
       default: "X"
@@ -97,6 +97,7 @@ const visObject = {
       label: "Decimals"
     }
   },
+
 
   /**
    * The create function gets called when the visualization is mounted but before any
@@ -137,8 +138,9 @@ const visObject = {
     // `;
     element.style.height = "100%";
     // element.className = "vis_container";
-    // let container = document.createElement("div");
-    // element.appendChild(container);
+    const drillIntoDiv = document.createElement("div");
+    drillIntoDiv.id = "drillInto-" + new Date().getTime();
+    element.appendChild(drillIntoDiv);
 
 
     // Throw some errors and exit if the shape of the data isn't what this chart needs.
@@ -147,15 +149,15 @@ const visObject = {
       this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
       return;
     }
-    let containerId = "container:" + new Date().getTime();
+    let containerId = "container-" + new Date().getTime();
     element.id = containerId;
 
     const hasTableCalculation = queryResponse.fields.table_calculations && queryResponse.fields.table_calculations.length > 0;
     const hasMeasures = queryResponse.fields.measures && queryResponse.fields.measures.length > 0;
     if (hasTableCalculation) {
-      this.generateCalculationHighChartLine(queryResponse, data, config, containerId);
+      this.generateCalculationHighChartLine(queryResponse, data, config, containerId, drillIntoDiv);
     } else if (hasMeasures) {
-      this.generateNormalHighChartLine(queryResponse, data, config, containerId);
+      this.generateNormalHighChartLine(queryResponse, data, config, containerId, drillIntoDiv);
     } else {
       console.error("neither table_calculations nor measures can be found in query response.");
       this.addError({
@@ -166,7 +168,7 @@ const visObject = {
     doneRendering()
   },
 
-  generateCalculationHighChartLine: function (queryResponse, data, config, containerId) {
+  generateCalculationHighChartLine: function (queryResponse, data, config, containerId, drillIntoDiv) {
     const dimensionName = queryResponse.fields.dimensions[0].name;
     const yName = queryResponse.fields.table_calculations[0].name;
     const convertedData = this.convertData(dimensionName, yName, data, config);
@@ -175,10 +177,10 @@ const visObject = {
     // console.log(JSON.stringify(convertedData));
     const dimensionLabel = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
     const yLabel = config.custom_y_axis_name || queryResponse.fields.table_calculations[0].label_short || queryResponse.fields.table_calculations[0].label;
-    this.drawChart(containerId, convertedData, dimensionLabel, yLabel, config);
+    this.drawChart(containerId, drillIntoDiv, convertedData, dimensionLabel, yLabel, config);
   },
 
-  generateNormalHighChartLine: function (queryResponse, data, config, containerId) {
+  generateNormalHighChartLine: function (queryResponse, data, config, containerId, drillIntoDiv) {
     let measureName = queryResponse.fields.measures[0].name;
     let dimensionName = queryResponse.fields.dimensions[0].name;
     const convertedData = this.convertData(dimensionName, measureName, data, config);
@@ -186,7 +188,7 @@ const visObject = {
     // console.log(JSON.stringify(convertedData));
     const measureLabelName = config.custom_y_axis_name || queryResponse.fields.measures[0].label_short || queryResponse.fields.measures[0].label;
     const dimensionLabelName = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
-    this.drawChart(containerId, convertedData, dimensionLabelName, measureLabelName, config);
+    this.drawChart(containerId, drillIntoDiv, convertedData, dimensionLabelName, measureLabelName, config);
   },
 
   convertData: function (xFieldName, yFieldName, data, config) {
@@ -220,7 +222,7 @@ const visObject = {
     };
   },
 
-  drawChart: function (containerId, data, xLabel, yLabel, config) {
+  drawChart: function (containerId, drillIntoDiv, data, xLabel, yLabel, config) {
     const visObjectThis = this;
     const xTitle = config.display_x_axis_title ? xLabel || "" : "";
     const yTitle = config.display_y_axis_title ? yLabel || "" : "";
@@ -286,8 +288,8 @@ const visObject = {
           cursor: 'pointer',
           events: {
             click: function (event) {
-              console.log("1111");
-              LookerCharts.Utils.closeDrillMenu();
+              console.log("0000");
+              drillIntoDiv.innerHTML = "";
               const drillLinks = data.links[event.point.index].map(item => {
                 return {
                   "label": item.label,
@@ -300,6 +302,7 @@ const visObject = {
               if (drillLinks.length > 0) {
                 LookerCharts.Utils.openDrillMenu({
                   links: drillLinks,
+                  element: drillIntoDiv,
                   event: event
                 });
               }
