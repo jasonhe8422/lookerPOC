@@ -274,10 +274,10 @@ const visObject = {
             click: function (event) {
               console.log(this.name + ' clicked\n' +
                 'index: ' + event.point.index + '\n' +
-                'x: ' + this.x + '\n' +
+                'x: ' + event.point.options.x + '\n' +
                 'Shift: ' + event.shiftKey + '\n');
               const drillLinks = data.links[event.point.index].map(item=> {
-                return {"label": item.label, "type": 'drill', "type_label": visObjectThis.dateformat(this.x, config.date_format), "url": item.url };
+                return {"label": item.label, "type": 'drill', "type_label": visObjectThis.dateformat(event.point.options.x, config.date_format), "url": item.url };
               })
               console.log((JSON.stringify(drillLinks)));
               LookerCharts.Utils.openDrillMenu({
