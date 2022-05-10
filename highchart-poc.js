@@ -271,13 +271,13 @@ const visObject = {
       plotOptions: {
         line: {
           dataLabels: {
-            useHTML: true,
+            useHTML: false,
             enabled: config.value_labels,
             color: config.value_label_color,
             formatter: function () {
               const label = visObjectThis.formatMoney(this.y, config.decimals, '');
               if (config.percentage) {
-                return "<div> test "+label+" %</div>";
+                return "<div>"+label+" %</div>";
               }
               return label;
             }
@@ -297,16 +297,10 @@ const visObject = {
                   "url": item.url
                 };
               })
-              console.log(drillLinks.length);
-              console.log(event);
-              console.log(event.point.dataLabel.div);
-              let div = document.createElement("div");
-              document.getElementsByTagName("body")[0].appendChild(div);
-              div.id="22222232323232";
               if (drillLinks.length > 0) {
                 LookerCharts.Utils.openDrillMenu({
                   links: drillLinks,
-                  element: div
+                  event: event
                 });
               }
             }
