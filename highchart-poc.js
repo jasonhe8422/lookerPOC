@@ -286,6 +286,7 @@ const visObject = {
           cursor: 'pointer',
           events: {
             click: function (event) {
+              LookerCharts.Utils.openDrillMenu();
               const drillLinks = data.links[event.point.index].map(item => {
                 return {
                   "label": item.label,
