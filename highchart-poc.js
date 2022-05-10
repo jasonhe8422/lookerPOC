@@ -116,10 +116,10 @@ const visObject = {
     this.clearErrors();
     // console.log("config: ");
     // console.log(JSON.stringify(config));
-    console.log("queryResponse: ");
-    console.log(JSON.stringify(queryResponse));
-    console.log("data: ");
-    console.log(JSON.stringify(data));
+    // console.log("queryResponse: ");
+    // console.log(JSON.stringify(queryResponse));
+    // console.log("data: ");
+    // console.log(JSON.stringify(data));
     // element.style.innerHTML = defaultTheme;
     // element.innerHTML = `
     //   <style>
@@ -298,7 +298,6 @@ const visObject = {
                 };
               })
               // console.log((JSON.stringify(drillLinks)));
-              console.log(JSON.stringify(LookerCharts.Utils.prototype));
               if (drillLinks.length > 0) {
                 LookerCharts.Utils.openDrillMenu({
                   links: drillLinks,
