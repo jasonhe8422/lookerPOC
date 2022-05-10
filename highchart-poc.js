@@ -110,8 +110,8 @@ const visObject = {
     // console.log(JSON.stringify(config));
     console.log("queryResponse: ");
     console.log(JSON.stringify(queryResponse));
-    // console.log("data: ");
-    // console.log(JSON.stringify(data));
+    console.log("data: ");
+    console.log(JSON.stringify(data));
     // element.style.innerHTML = defaultTheme;
     // element.innerHTML = `
     //   <style>
