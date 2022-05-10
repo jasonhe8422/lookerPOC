@@ -271,6 +271,7 @@ const visObject = {
       plotOptions: {
         line: {
           dataLabels: {
+            useHTML: true,
             enabled: config.value_labels,
             color: config.value_label_color,
             formatter: function () {
