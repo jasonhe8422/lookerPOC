@@ -209,6 +209,7 @@ const visObject = {
       if (config.drill_into == 'Y') {
         drillIntoFieldName = yFieldName;
       }
+      console.log("item[drillIntoFieldName].links:   "+item[drillIntoFieldName].links.length);
       links.push(item[drillIntoFieldName].links ? item[drillIntoFieldName].links : []);
       const date = new Date(item[xFieldName].value).getTime();
       const mktValue = percentage ? item[yFieldName].value * 100 : item[yFieldName].value;
