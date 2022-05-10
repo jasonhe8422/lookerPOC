@@ -272,7 +272,6 @@ const visObject = {
         series: {
           events: {
             click: function (event) {
-              console.log(JSON.stringify(event));
               console.log(this.name + ' clicked\n' +
                 'index: ' + event.point.index + '\n' +
                 'Control: ' + event.ctrlKey + '\n' +
