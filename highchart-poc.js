@@ -301,7 +301,7 @@ const visObject = {
               console.log(event);
               console.log(event.point.dataLabel.div);
               let div = document.createElement("div");
-              document.getElementsByTagName("body").appendChild(div);
+              document.getElementsByTagName("body")[0].appendChild(div);
               div.id="22222232323232";
               if (drillLinks.length > 0) {
                 LookerCharts.Utils.openDrillMenu({
