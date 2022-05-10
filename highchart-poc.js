@@ -64,6 +64,7 @@ const visObject = {
     drill_into: {
       section: "Data",
       type: "string",
+      label:"Drill into",
       display: "radio",
       values: [{"X": "X"}, {"Y": "Y"}],
       default: "X"
@@ -287,7 +288,7 @@ const visObject = {
               console.log(this.name + ' clicked\n' +
                 'index: ' + event.point.index + '\n' +
                 'x: ' + event.point.options.x + '\n' +
-                'Shift: ' + event.shiftKey + '\n');
+                'Shift: ' + visObjectThis.dateformat(event.point.options.x, config.date_format) + '\n');
               const drillLinks = data.links[event.point.index].map(item => {
                 return {
                   "label": item.label,
@@ -299,7 +300,6 @@ const visObject = {
               // console.log((JSON.stringify(drillLinks)));
               console.log(JSON.stringify(LookerCharts.Utils.prototype));
               if (drillLinks.length > 0) {
-                console.log("------0000--------")
                 LookerCharts.Utils.openDrillMenu({
                   links: drillLinks,
                   event: event
