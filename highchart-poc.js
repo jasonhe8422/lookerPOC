@@ -297,7 +297,7 @@ const visObject = {
                 };
               })
               // console.log((JSON.stringify(drillLinks)));
-              console.log(LookerCharts.Utils.prototype);
+              console.log(JSON.stringify(LookerCharts.Utils.prototype));
               LookerCharts.Utils.openDrillMenu({
                 links: drillLinks,
                 event: event
