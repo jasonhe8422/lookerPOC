@@ -283,6 +283,7 @@ const visObject = {
           enableMouseTracking: config.enable_mouse_tracking
         },
         series: {
+          cursor: 'pointer',
           events: {
             click: function (event) {
               const drillLinks = data.links[event.point.index].map(item => {
