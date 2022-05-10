@@ -298,10 +298,14 @@ const visObject = {
               })
               // console.log((JSON.stringify(drillLinks)));
               console.log(JSON.stringify(LookerCharts.Utils.prototype));
-              LookerCharts.Utils.openDrillMenu({
-                links: drillLinks,
-                event: event
-              });
+              if (drillLinks.length == 1) {
+                LookerCharts.Utils.openDrill(drillLinks[0]);
+              } else if (drillLinks.length > 1) {
+                LookerCharts.Utils.openDrillMenu({
+                  links: drillLinks,
+                  event: event
+                });
+              }
             }
           }
         }
