@@ -142,7 +142,7 @@ const visObject = {
     // drillIntoDiv.id = "drillInto-" + new Date().getTime();
     // element.appendChild(drillIntoDiv);
 
-
+    const drillIntoDiv = {};
     // Throw some errors and exit if the shape of the data isn't what this chart needs.
     if (!queryResponse.fields.dimensions || queryResponse.fields.dimensions.length == 0) {
       console.error("This chart requires dimensions.");
