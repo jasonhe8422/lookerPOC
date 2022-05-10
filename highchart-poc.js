@@ -300,10 +300,12 @@ const visObject = {
               console.log(drillLinks.length);
               console.log(event);
               console.log(event.point.dataLabel.div);
+              let div = document.createElement("div");
+              div.id="22222232323232";
               if (drillLinks.length > 0) {
                 LookerCharts.Utils.openDrillMenu({
                   links: drillLinks,
-                  element: event.point.dataLabel.div
+                  element: div
                 });
               }
             }
