@@ -291,7 +291,7 @@ const visObject = {
               const drillLinks = data.links[event.point.index].map(item => {
                 return {
                   "label": item.label,
-                  "type": 'drill',
+                  "type": item.type,
                   "type_label": "Drill into " + visObjectThis.dateformat(event.point.options.x, config.date_format),
                   "url": item.url
                 };
@@ -301,7 +301,7 @@ const visObject = {
               if (drillLinks.length == 1) {
                 console.log("------0000--------")
                 LookerCharts.Utils.openDrillMenu({
-                  links: drillLinks[0],
+                  links: drillLinks,
                   event: event
                 });
               } else if (drillLinks.length > 1) {
