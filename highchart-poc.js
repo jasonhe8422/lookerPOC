@@ -116,10 +116,10 @@ const visObject = {
     this.clearErrors();
     // console.log("config: ");
     // console.log(JSON.stringify(config));
-    // console.log("queryResponse: ");
-    // console.log(JSON.stringify(queryResponse));
-    // console.log("data: ");
-    // console.log(JSON.stringify(data));
+    console.log("queryResponse: ");
+    console.log(JSON.stringify(queryResponse));
+    console.log("data: ");
+    console.log(JSON.stringify(data));
     // element.style.innerHTML = defaultTheme;
     // element.innerHTML = `
     //   <style>
