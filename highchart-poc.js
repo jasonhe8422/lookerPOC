@@ -302,8 +302,7 @@ const visObject = {
               if (drillLinks.length > 0) {
                 LookerCharts.Utils.openDrillMenu({
                   links: drillLinks,
-                  element: drillIntoDiv,
-                  event: drillIntoDiv
+                  event: event
                 });
               }
             }
