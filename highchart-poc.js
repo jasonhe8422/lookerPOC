@@ -297,7 +297,7 @@ const visObject = {
                 };
               })
               console.log(drillLinks.length);
-              console.log(event.point.graphic.element)
+              console.log(event)
               if (drillLinks.length > 0) {
                 LookerCharts.Utils.openDrillMenu({
                   links: drillLinks,
