@@ -276,7 +276,7 @@ const visObject = {
             formatter: function () {
               const label = visObjectThis.formatMoney(this.y, config.decimals, '');
               if (config.percentage) {
-                return label + "%";
+                return "<div> test "+label+" %</div>";
               }
               return label;
             }
