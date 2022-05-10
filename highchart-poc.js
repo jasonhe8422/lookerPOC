@@ -140,7 +140,7 @@ const visObject = {
     element.className = "vis_container";
     const drillIntoDiv = document.createElement("div");
     drillIntoDiv.id = "drillInto-" + new Date().getTime();
-    element.appendChild(drillIntoDiv);
+    // element.appendChild(drillIntoDiv);
 
     // Throw some errors and exit if the shape of the data isn't what this chart needs.
     if (!queryResponse.fields.dimensions || queryResponse.fields.dimensions.length == 0) {
@@ -288,7 +288,6 @@ const visObject = {
           events: {
             click: function (event) {
               console.log("0000");
-              drillIntoDiv.innerHTML = "";
               const drillLinks = data.links[event.point.index].map(item => {
                 return {
                   "label": item.label,
@@ -301,7 +300,7 @@ const visObject = {
               if (drillLinks.length > 0) {
                 LookerCharts.Utils.openDrillMenu({
                   links: drillLinks,
-                  element: drillIntoDiv
+                  element: event.point.graphic.element
                 });
               }
             }
