@@ -61,14 +61,6 @@ const visObject = {
       label: "Sort By X Axis",
       default: false
     },
-    drill_into: {
-      section: "Data",
-      type: "string",
-      label: "Drill into",
-      display: "radio",
-      values: [{"X": "X"}, {"Y": "Y"}],
-      default: "X"
-    },
     custom_x_axis_name: {
       section: "X",
       type: "string",
@@ -204,13 +196,9 @@ const visObject = {
       })
     }
     let links = [];
-    console.log("drill_indo: " + config.drill_into);
     const convertedData = data.filter(item => item[yFieldName].value).map(item => {
-      let drillIntoFieldName = xFieldName;
-      if (config.drill_into == 'Y') {
-        drillIntoFieldName = yFieldName;
-      }
-      links.push(item[drillIntoFieldName].links ? item[drillIntoFieldName].links : []);
+      links = links.concat(item[xFieldName].links ? item[xFieldName].links : []);
+      links = links.concat(item[yFieldName].links ? item[yFieldName].links : []);
       const date = new Date(item[xFieldName].value).getTime();
       const mktValue = percentage ? item[yFieldName].value * 100 : item[yFieldName].value;
       return [date, this.round(mktValue, config.decimals)];
@@ -288,7 +276,6 @@ const visObject = {
           cursor: 'pointer',
           events: {
             click: function (event) {
-              console.log("0000");
               const drillLinks = data.links[event.point.index].map(item => {
                 return {
                   "label": item.label,
