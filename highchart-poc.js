@@ -196,19 +196,32 @@ const visObject = {
       })
     }
     let links = [];
-    const convertedData = data.filter(item => item[yFieldName].value).map(item => {
+    const convertedData = data.filter(item => this.findPathByLeafId('value', item[yFieldName])).map(item => {
       let subLinks = [];
       subLinks = subLinks.concat(item[xFieldName].links ? item[xFieldName].links : []);
       subLinks = subLinks.concat(item[yFieldName].links ? item[yFieldName].links : []);
       links.push(subLinks);
       const date = new Date(item[xFieldName].value).getTime();
-      const mktValue = percentage ? item[yFieldName].value * 100 : item[yFieldName].value;
+      const yValue = this.findPathByLeafId('value', item[yFieldName])
+      const mktValue = percentage ? yValue * 100 : yValue;
       return [date, this.round(mktValue, config.decimals)];
     });
     return {
       "convertedData": convertedData,
       "links": links
     };
+  },
+
+  findPathByLeafId: function (leafId, node) {
+    for(let name in node){
+      if(name === leafId){
+        return node[leafId]
+      }else if(typeof node[name] === 'object'){
+        return this.findPathByLeafId(leafId, node[name])
+      }else{
+        return node[leafId]
+      }
+    }
   },
 
   drawChart: function (containerId, drillIntoDiv, data, xLabel, yLabel, config) {
