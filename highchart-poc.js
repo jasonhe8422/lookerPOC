@@ -175,8 +175,8 @@ const visObject = {
     let measureName = queryResponse.fields.measures[0].name;
     let dimensionName = queryResponse.fields.dimensions[0].name;
     const convertedData = this.convertData(dimensionName, measureName, data, config);
-    // console.log("----------------Converted Data------------------------")
-    // console.log(JSON.stringify(convertedData));
+     console.log("----------------Converted Data------------------------")
+     console.log(JSON.stringify(convertedData));
     const measureLabelName = config.custom_y_axis_name || queryResponse.fields.measures[0].label_short || queryResponse.fields.measures[0].label;
     const dimensionLabelName = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
     this.drawChart(containerId, drillIntoDiv, convertedData, dimensionLabelName, measureLabelName, config);
