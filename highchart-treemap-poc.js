@@ -13,8 +13,8 @@ const visObject = {
   options: {
     sort_by_value: {
       type: "boolean",
-      label: "Sort By Value",
-      default: false
+      label: "Order By Value",
+      default: true
     },
     plot_title: {
       type: "string",
@@ -166,7 +166,6 @@ looker.plugins.visualizations.add(visObject);
 function add0(m) {
   return m < 10 ? '0' + m : m
 }
-
 
 
 
