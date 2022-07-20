@@ -202,7 +202,7 @@ const visObject = {
       subLinks = subLinks.concat(item[xFieldName].links ? item[xFieldName].links : []);
       subLinks = subLinks.concat(item[yFieldName].links ? item[yFieldName].links : []);
       links.push(subLinks);
-      const date = new Date(item[xFieldName].value).getTime();
+      const date = item[xFieldName].value;
       const yValue = this.findPathByLeafId('value', item[yFieldName])
       const mktValue = percentage ? yValue * 100 : yValue;
       return [date, this.round(mktValue, config.decimals)];
