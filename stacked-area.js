@@ -297,7 +297,7 @@ const visObject = {
           cursor: 'pointer',
           events: {
             click: function (event) {
-              console.log(window.location)
+              console.log(window)
               console.log(window.top.location)
               console.log(window.parent.location)
               console.log(window.parent.parent.location)
