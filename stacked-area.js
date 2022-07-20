@@ -297,7 +297,6 @@ const visObject = {
           cursor: 'pointer',
           events: {
             click: function (event) {
-              window.top.location = "http://localhost:8084/"
               // console.log(window.top.document.getElementById("looker"))
               window.top.postMessage("message1","*");
               window.parent.postMessage("message2","*");
