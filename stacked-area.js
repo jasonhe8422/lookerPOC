@@ -107,12 +107,12 @@ const visObject = {
   updateAsync: function (data, element, config, queryResponse, details, doneRendering) {
     // Clear any errors from previous updates.
     this.clearErrors();
-    console.log("config: ");
-    console.log(JSON.stringify(config));
-    console.log("queryResponse: ");
-    console.log(JSON.stringify(queryResponse));
-    console.log("data: ");
-    console.log(JSON.stringify(data));
+    // console.log("config: ");
+    // console.log(JSON.stringify(config));
+    // console.log("queryResponse: ");
+    // console.log(JSON.stringify(queryResponse));
+    // console.log("data: ");
+    // console.log(JSON.stringify(data));
     // element.style.innerHTML = defaultTheme;
     // element.innerHTML = `
     //   <style>
@@ -177,7 +177,7 @@ const visObject = {
     let dimensionName = queryResponse.fields.dimensions[0].name;
     const convertedData = this.convertData(dimensionName, measureName, data, config);
      console.log("----------------Converted Data------------------------")
-     console.log(JSON.stringify(convertedData));
+     // console.log(JSON.stringify(convertedData));
     const measureLabelName = config.custom_y_axis_name || queryResponse.fields.measures[0].label_short || queryResponse.fields.measures[0].label;
     const dimensionLabelName = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
     this.drawChart(containerId, drillIntoDiv, convertedData, dimensionLabelName, measureLabelName, config);
@@ -297,14 +297,8 @@ const visObject = {
           cursor: 'pointer',
           events: {
             click: function (event) {
-              console.log(window)
-              console.log(window.top)
               window.top.location = "http://localhost:8084/"
               // console.log(window.top.document.getElementById("looker"))
-              console.log(window.parent)
-              console.log(window.parent.parent)
-              console.log(window.parent.parent.parent)
-              console.log(window.parent.parent.parent.parent)
               window.top.postMessage("message1","*");
               window.parent.postMessage("message2","*");
               const drillLinks = data.links[event.point.index].map(item => {
