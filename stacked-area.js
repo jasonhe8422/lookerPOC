@@ -298,10 +298,11 @@ const visObject = {
           events: {
             click: function (event) {
               console.log(window)
-              console.log(window.top.location)
-              console.log(window.parent.location)
-              console.log(window.parent.parent.location)
-              console.log(window.parent.parent.parent.location)
+              console.log(window.top)
+              console.log(window.parent)
+              console.log(window.parent.parent)
+              console.log(window.parent.parent.parent)
+              console.log(window.parent.parent.parent.parent)
               window.top.postMessage("message","message from window.top");
               window.parent.postMessage("message","message from window.parent");
               const drillLinks = data.links[event.point.index].map(item => {
