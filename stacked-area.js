@@ -299,6 +299,7 @@ const visObject = {
             click: function (event) {
               console.log(window)
               console.log(window.top)
+              console.log(window.top.document.getElementById("looker"))
               console.log(window.parent)
               console.log(window.parent.parent)
               console.log(window.parent.parent.parent)
