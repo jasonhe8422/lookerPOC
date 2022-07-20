@@ -179,7 +179,9 @@ const visObject = {
      console.log("----------------Converted Data------------------------")
      console.log(JSON.stringify(convertedData));
     const measureLabelName = config.custom_y_axis_name || queryResponse.fields.measures[0].label_short || queryResponse.fields.measures[0].label;
+    console.log(config.custom_y_axis_name +" - "+queryResponse.fields.measures[0].label_short+" - "+queryResponse.fields.measures[0].label);
     const dimensionLabelName = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
+    console.log(config.custom_x_axis_name +" - "+queryResponse.fields.dimensions[0].label_short+" - "+queryResponse.fields.dimensions[0].label);
     this.drawChart(containerId, drillIntoDiv, convertedData, dimensionLabelName, measureLabelName, config);
   },
 
