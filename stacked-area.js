@@ -179,9 +179,7 @@ const visObject = {
      console.log("----------------Converted Data------------------------")
      console.log(JSON.stringify(convertedData));
     const measureLabelName = config.custom_y_axis_name || queryResponse.fields.measures[0].label_short || queryResponse.fields.measures[0].label;
-    console.log(config.custom_y_axis_name +" - "+queryResponse.fields.measures[0].label_short+" - "+queryResponse.fields.measures[0].label);
     const dimensionLabelName = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
-    console.log(config.custom_x_axis_name +" - "+queryResponse.fields.dimensions[0].label_short+" - "+queryResponse.fields.dimensions[0].label);
     this.drawChart(containerId, drillIntoDiv, convertedData, dimensionLabelName, measureLabelName, config);
   },
 
@@ -228,8 +226,6 @@ const visObject = {
   },
 
   drawChart: function (containerId, drillIntoDiv, data, xLabel, yLabel, config) {
-    console.log('xTitle: '+xLabel);
-    console.log('yTitle: '+yLabel);
     const visObjectThis = this;
     const xTitle = config.display_x_axis_title ? xLabel || "" : "";
     const yTitle = config.display_y_axis_title ? yLabel || "" : "";
@@ -301,6 +297,9 @@ const visObject = {
           cursor: 'pointer',
           events: {
             click: function (event) {
+              console.log(window.top)
+              console.log(window.parent)
+              console
               const drillLinks = data.links[event.point.index].map(item => {
                 return {
                   "label": item.label,
