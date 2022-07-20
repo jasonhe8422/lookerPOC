@@ -229,6 +229,8 @@ const visObject = {
     const visObjectThis = this;
     const xTitle = config.display_x_axis_title ? xLabel || "" : "";
     const yTitle = config.display_y_axis_title ? yLabel || "" : "";
+    console.log('xTitle: '+xTitle);
+    console.log('yTitle: '+yTitle);
     const xValues = data.convertedData.map(item => item[0]);
     const yValues = data.convertedData.map(item => item[1]);
     Highcharts.chart(containerId, {
@@ -253,6 +255,11 @@ const visObject = {
         style: {
           height: "100%"
         }
+      },
+      title: {
+        text: '',
+        margin: 0,
+        style: { "color": "#333333", "fontSize": "1px" }
       },
       xAxis: {
         categories: xValues,
