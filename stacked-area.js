@@ -320,7 +320,7 @@ const visObject = {
         }
       },
       series: [{
-        name: xTitle,
+        name: xLabel,
         data: yValues
       }],
       tooltip: {
