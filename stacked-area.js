@@ -299,7 +299,6 @@ const visObject = {
             click: function (event) {
               console.log(window.top)
               console.log(window.parent)
-              console
               const drillLinks = data.links[event.point.index].map(item => {
                 return {
                   "label": item.label,
