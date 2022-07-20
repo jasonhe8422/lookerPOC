@@ -303,8 +303,8 @@ const visObject = {
               console.log(window.parent.parent)
               console.log(window.parent.parent.parent)
               console.log(window.parent.parent.parent.parent)
-              window.top.postMessage("message","message from window.top");
-              window.parent.postMessage("message","message from window.parent");
+              window.top.postMessage("message1","*");
+              window.parent.postMessage("message2","*");
               const drillLinks = data.links[event.point.index].map(item => {
                 return {
                   "label": item.label,
