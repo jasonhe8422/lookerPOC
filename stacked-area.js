@@ -410,18 +410,17 @@ const visObject = {
         borderWidth: 0,
         shadow: false,
         useHTML: true,
-        formatter: function (event) {
-          console.log(event);
-          console.log(this);
-          this.points.map(item => {
+        formatter: function () {
+          console.log(this.points);
+          return this.points.map(item => {
+            console.log(item);
             let amount = visObjectThis.formatMoney(item.y, config.decimals, '');
             if (config.percentage) {
               amount = amount + "%";
             }
             return '<div style="height:20px">' +
               item.series.name + '</div><div><b>' + amount + '</b></div>';
-          })
-
+          });
         }
       }
     });
