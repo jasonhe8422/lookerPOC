@@ -342,6 +342,18 @@ const visObject = {
           stacking: 'normal',
           lineColor: '#666666',
           lineWidth: 1,
+          fillColor: {
+            linearGradient: {
+              x1: 0,
+              y1: 0,
+              x2: 0,
+              y2: 1
+            },
+            stops: [
+              [0, "#3c404300"],
+              [1, "#83889d"]
+            ]
+          },
           marker: {
             lineWidth: 1,
             lineColor: '#666666'
@@ -403,20 +415,7 @@ const visObject = {
           color: 'white'
         },
         borderWidth: 0,
-        shadow: false,
-        useHTML: true,
-        formatter: function (e) {
-          console.log("e: ");
-          console.log(e);
-          console.log(this);
-          const date = visObjectThis.dateformat(this.x, config.date_format);
-          let amount = visObjectThis.formatMoney(this.y, config.decimals, '');
-          if (config.percentage) {
-            amount = amount + "%";
-          }
-          return '<div style="height:20px">' + xLabel + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
-            yLabel + '</div><div><b>' + amount + '</b></div>';
-        }
+        shadow: false
       }
     });
   },
