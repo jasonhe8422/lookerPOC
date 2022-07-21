@@ -253,8 +253,11 @@ const visObject = {
     const visObjectThis = this;
     const xTitle = config.display_x_axis_title ? xLabel || "" : "";
     const yTitle = config.display_y_axis_title ? yLabel || "" : "";
-    const xValues = data.convertedData.map(item => item[0]);
-    const yValues = data.convertedData.map(item => item[1]);
+    const xValues = data.convertedData.xValues;
+    const yValues = [];
+    for(let yName in data.convertedData.yValues){
+      yValues.push({name:yName, data: data.convertedData.yValues[yName]})
+    }
     Highcharts.chart(containerId, {
       credits: {
         enabled: false,
@@ -342,10 +345,7 @@ const visObject = {
           }
         }
       },
-      series: [{
-        name: xLabel,
-        data: yValues
-      }],
+      series: yValues,
       tooltip: {
         split: true,
         // className: "tooltipdiv",
