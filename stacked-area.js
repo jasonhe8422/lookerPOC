@@ -260,15 +260,18 @@ const visObject = {
     const yTitle = config.display_y_axis_title ? yLabel || "" : "";
     data.convertedData = data.convertedData.filter(item => {
       item = item[1];
+      let count = 0;
       for(let name in item){
+        count++;
         if(item[name] != 0){
           return true;
         }
       }
+      if(count == 1){
+        return true;
+      }
       return false;
     })
-    console.log("convertedData: ");
-    console.log(data.convertedData);
     const xValues = data.convertedData.map(item => item[0]);
     const yValueObj = {};
     data.convertedData.map(item => item[1]).map(item => {
@@ -288,8 +291,6 @@ const visObject = {
       }
       yValues.push({name: name, data: yValueObj[name], color: config.areaColor[count++]});
     }
-    console.log("========y axis data=========");
-    console.log(JSON.stringify(yValues))
     Highcharts.chart(containerId, {
       credits: {
         enabled: false,
@@ -356,8 +357,6 @@ const visObject = {
           cursor: 'pointer',
           events: {
             click: function (event) {
-              console.log("event: ")
-              console.log(event);
               // console.log(window.top.document.getElementById("looker"))
               // window.top.postMessage("message1","*");
               // window.parent.postMessage("message2","*");
@@ -378,10 +377,6 @@ const visObject = {
                   }else {
                     labelName = 'Explore'
                   }
-                  console.log({"label": item1.label,
-                    "type": item1.type,
-                    "type_label": labelName,
-                    "url": item1.url});
                   drillLinks.push({"label": item1.label,
                     "type": item1.type,
                     "type_label": labelName,
@@ -411,9 +406,7 @@ const visObject = {
         shadow: false,
         useHTML: true,
         formatter: function () {
-          console.log(this.points);
           return [this.x].concat(this.points.map(item => {
-            console.log(item);
             let amount = visObjectThis.formatMoney(item.y, config.decimals, '');
             if (config.percentage) {
               amount = amount + "%";
