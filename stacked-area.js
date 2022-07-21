@@ -326,6 +326,12 @@ const visObject = {
           text: xTitle
         },
         width: config.display_y_axis_title ? "95%" : "100%",
+        labels:{
+          formatter: function(){
+            console.log(this.value);
+            return Highcharts.dateFormat('%m-%d-%Y', this.value);
+          }
+        }
       },
       yAxis: {
         title: {
