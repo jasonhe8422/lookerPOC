@@ -179,7 +179,7 @@ const visObject = {
     let dimensionName = queryResponse.fields.dimensions[0].name;
     const convertedData = this.convertData(dimensionName, measureName, data, config);
      console.log("----------------Converted Data------------------------")
-     // console.log(JSON.stringify(convertedData));
+     console.log(JSON.stringify(convertedData));
     const measureLabelName = config.custom_y_axis_name || queryResponse.fields.measures[0].label_short || queryResponse.fields.measures[0].label;
     const dimensionLabelName = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
     this.drawChart(containerId, drillIntoDiv, convertedData, dimensionLabelName, measureLabelName, config);
@@ -198,29 +198,27 @@ const visObject = {
         }
       })
     }
-    const xValues = [];
-    const yValues = {};
     let links = {};
-    for(let index in data){
-      const item = data[index];
-      xValues.push(item[xFieldName].value);
+
+
+    const convertedData = data.map(item => {
+      const date = item[xFieldName].value;
+      const yValues = {};
       for(let subValue in item[yFieldName]){
         const subObj = item[yFieldName][subValue];
         if(typeof subObj === 'object'){
           if(!yValues[subValue]){
             yValues[subValue] = [];
           }
-         let yValue = this.findPathByLeafId('value', subObj);
+          let yValue = this.findPathByLeafId('value', subObj);
           yValue = yValue ? yValue : 0;
           const mktValue = percentage ? yValue * 100 : yValue;
           yValues[subValue].push(mktValue);
         }
       }
-    }
-    console.log("xValues: ");
-    console.log(xValues);
-    console.log("yValues: ");
-    console.log(yValues);
+      return [date, yValues];
+    });
+
     // const convertedData = data.filter(item => this.findPathByLeafId('value', item[yFieldName])).map(item => {
     //   let subLinks = [];
     //   subLinks = subLinks.concat(item[xFieldName].links ? item[xFieldName].links : []);
@@ -232,10 +230,7 @@ const visObject = {
     //   return [date, this.round(mktValue, config.decimals)];
     // });
     return {
-      "convertedData": {
-        "xValues":xValues,
-        "yValues":yValues
-      },
+      "convertedData": convertedData,
       "links": links
     };
   },
@@ -256,11 +251,16 @@ const visObject = {
     const visObjectThis = this;
     const xTitle = config.display_x_axis_title ? xLabel || "" : "";
     const yTitle = config.display_y_axis_title ? yLabel || "" : "";
-    const xValues = data.convertedData.xValues;
-    const yValues = [];
-    for(let yName in data.convertedData.yValues){
-      yValues.push({name:yName, data: data.convertedData.yValues[yName]})
-    }
+    const xValues = data.convertedData.map(item => item[0]);
+    const yValues = {};
+    data.convertedData.map(item => {
+      for(let name in item){
+        if(!yValues[name]){
+          yValues[name] = {name: name, data: []};
+        }
+        yValues[name].data.push(item[name]);
+      }
+    })
     Highcharts.chart(containerId, {
       credits: {
         enabled: false,
