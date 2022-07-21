@@ -250,14 +250,14 @@ const visObject = {
     const yTitle = config.display_y_axis_title ? yLabel || "" : "";
     data.convertedData = data.convertedData.map(item => item[1]).filter(item => {
       for(let name in item){
-        console.log("name: "+name);
-        console.log("value: "+item[name]);
         if(item[name] != 0){
           return true;
         }
       }
       return false;
     })
+    console.log("convertedData: ");
+    console.log(data.convertedData);
     const xValues = data.convertedData.map(item => item[0]);
     const yValueObj = {};
     data.convertedData.map(item => item[1]).map(item => {
