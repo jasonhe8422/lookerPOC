@@ -347,18 +347,6 @@ const visObject = {
           stacking: 'normal',
           lineColor: '#666666',
           lineWidth: 1,
-          fillColor: {
-            linearGradient: {
-              x1: 0,
-              y1: 0,
-              x2: 0,
-              y2: 1
-            },
-            stops: [
-              [0, "#3c404300"],
-              [1, "#83889d"]
-            ]
-          },
           marker: {
             lineWidth: 1,
             lineColor: '#666666'
