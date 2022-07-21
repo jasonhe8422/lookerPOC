@@ -250,7 +250,7 @@ const visObject = {
     const yTitle = config.display_y_axis_title ? yLabel || "" : "";
     const xValues = data.convertedData.map(item => item[0]);
     const yValueObj = {};
-    data.convertedData.map(item => {
+    data.convertedData.map(item => item[1]).map(item => {
       for(let name in item){
         if(!yValueObj[name]){
           yValueObj[name] = [];
