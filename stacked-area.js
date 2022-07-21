@@ -201,14 +201,16 @@ const visObject = {
     const xValues = [];
     const yValues = {};
     let links = {};
-    for(let item in data){
-      xValues.concat(item[xFieldName].value);
+    for(let index in data){
+      const item = data[index];
+      xValues.push(item[xFieldName].value);
       for(let subValue in item[yFieldName]){
         if(typeof subValue === 'object'){
           if(yValues[subValue]){
             yValues[subValue] = [];
           }
-         const yValue = this.findPathByLeafId('value', item[yFieldName][subValue]);
+         let yValue = this.findPathByLeafId('value', item[yFieldName][subValue]);
+          yValue = yValue ? yValue : 0;
           const mktValue = percentage ? yValue * 100 : yValue;
           yValues[subValue].concat(mktValue);
         }
