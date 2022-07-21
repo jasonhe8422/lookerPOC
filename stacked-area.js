@@ -408,7 +408,19 @@ const visObject = {
           color: 'white'
         },
         borderWidth: 0,
-        shadow: false
+        shadow: false,
+        useHTML: true,
+        formatter: function (event) {
+          console.log(event);
+          console.log(this);
+          const date = visObjectThis.dateformat(this.x, config.date_format);
+          let amount = visObjectThis.formatMoney(this.y, config.decimals, '');
+          if (config.percentage) {
+            amount = amount + "%";
+          }
+          return '<div style="height:20px">' + xLabel + '</div><div style="height:30px"><b>' + date + '</b></div><div style="height:20px">' +
+            yLabel + '</div><div><b>' + amount + '</b></div>';
+        }
       }
     });
   },
