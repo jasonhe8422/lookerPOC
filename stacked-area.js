@@ -107,12 +107,14 @@ const visObject = {
   updateAsync: function (data, element, config, queryResponse, details, doneRendering) {
     // Clear any errors from previous updates.
     this.clearErrors();
-    // console.log("config: ");
-    // console.log(JSON.stringify(config));
-    // console.log("queryResponse: ");
-    // console.log(JSON.stringify(queryResponse));
-    // console.log("data: ");
-    // console.log(JSON.stringify(data));
+    console.log("config: ");
+    console.log(JSON.stringify(config));
+    console.log("queryResponse: ");
+    console.log(JSON.stringify(queryResponse));
+    console.log("data: ");
+    console.log(JSON.stringify(data));
+    console.log("detail: ");
+    console.log(JSON.stringify(details));
     // element.style.innerHTML = defaultTheme;
     // element.innerHTML = `
     //   <style>
