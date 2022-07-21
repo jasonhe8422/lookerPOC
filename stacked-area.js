@@ -248,7 +248,7 @@ const visObject = {
     const visObjectThis = this;
     const xTitle = config.display_x_axis_title ? xLabel || "" : "";
     const yTitle = config.display_y_axis_title ? yLabel || "" : "";
-    data = data.convertedData.map(item => item[1]).filter(item => {
+    data.convertedData = data.convertedData.map(item => item[1]).filter(item => {
       for(let name in item){
         if(item[name] != 0){
           return true;
