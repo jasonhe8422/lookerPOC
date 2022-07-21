@@ -249,15 +249,19 @@ const visObject = {
     const xTitle = config.display_x_axis_title ? xLabel || "" : "";
     const yTitle = config.display_y_axis_title ? yLabel || "" : "";
     const xValues = data.convertedData.map(item => item[0]);
-    const yValues = {};
+    const yValueObj = {};
     data.convertedData.map(item => {
       for(let name in item){
-        if(!yValues[name]){
-          yValues[name] = {name: name, data: []};
+        if(!yValueObj[name]){
+          yValueObj[name] = [];
         }
-        yValues[name].data.push(item[name]);
+        yValueObj[name].push(item[name]);
       }
     })
+    const yValues = [];
+    for(let name in yValueObj){
+      yValues.push({name: name, data: yValueObj[name]});
+    }
     Highcharts.chart(containerId, {
       credits: {
         enabled: false,
