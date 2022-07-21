@@ -262,6 +262,8 @@ const visObject = {
     for(let name in yValueObj){
       yValues.push({name: name, data: yValueObj[name]});
     }
+    console.log("========y axis data=========");
+    console.log(JSON.stringify(yValues))
     Highcharts.chart(containerId, {
       credits: {
         enabled: false,
