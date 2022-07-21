@@ -117,7 +117,6 @@ const visObject = {
         shadow: false,
         useHTML: true,
         formatter: function () {
-          console.log(this);
           const value = this.point.value;
           const name = this.point.name;
           let label = visObjectThis.formatMoney(value, 2, '');
