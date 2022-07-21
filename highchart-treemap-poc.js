@@ -19,6 +19,12 @@ const visObject = {
     plot_title: {
       type: "string",
       label: "Plot Title"
+    },
+    color_range: {
+      type: "array",
+      label: "Color Range",
+      display: "colors",
+      default: ["#FFFFFF", "#83889D"]
     }
   },
   /**
@@ -89,8 +95,8 @@ const visObject = {
     const visObjectThis = this;
     Highcharts.chart(containerId, {
       colorAxis: {
-        minColor: '#FFFFFF',
-        maxColor: Highcharts.getOptions().colors[0]
+        minColor: config.color_range[0],
+        maxColor: config.color_range[1]
       },
       credits: {
         enabled: false,
