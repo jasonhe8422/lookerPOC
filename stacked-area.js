@@ -354,11 +354,15 @@ const visObject = {
               console.log("event: ")
               console.log(event);
               // console.log(window.top.document.getElementById("looker"))
-              window.top.postMessage("message1","*");
-              window.parent.postMessage("message2","*");
+              // window.top.postMessage("message1","*");
+              // window.parent.postMessage("message2","*");
+              const seriesName = event.point.series.name;
               const drillLinks = [];
               const linkObj = data.convertedData[event.point.index][2];
               for(let name in linkObj){
+                if(name != seriesName && name != 'default'){
+                  continue;
+                }
                 const item = linkObj[name];
                 item.forEach(item1 => {
                   drillLinks.push({"label": item1.label,
