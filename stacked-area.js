@@ -205,14 +205,15 @@ const visObject = {
       const item = data[index];
       xValues.push(item[xFieldName].value);
       for(let subValue in item[yFieldName]){
-        if(typeof subValue === 'object'){
-          if(yValues[subValue]){
+        const subObj = item[yFieldName][subValue];
+        if(typeof subObj === 'object'){
+          if(!yValues[subValue]){
             yValues[subValue] = [];
           }
-         let yValue = this.findPathByLeafId('value', item[yFieldName][subValue]);
+         let yValue = this.findPathByLeafId('value', subObj);
           yValue = yValue ? yValue : 0;
           const mktValue = percentage ? yValue * 100 : yValue;
-          yValues[subValue].concat(mktValue);
+          yValues[subValue].push(mktValue);
         }
       }
     }
