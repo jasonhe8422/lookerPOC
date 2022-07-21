@@ -365,13 +365,21 @@ const visObject = {
                 }
                 const item = linkObj[name];
                 item.forEach(item1 => {
+                  let labelName;
+                  if(item1.type === 'drill'){
+                    labelName = "Drill into " + visObjectThis.dateformat(event.point.category, config.date_format);
+                  }else if(item1.type === 'look'){
+                    labelName = 'Looks';
+                  }else {
+                    labelName = 'Explore'
+                  }
                   console.log({"label": item1.label,
                     "type": item1.type,
-                    "type_label": "Drill into " + visObjectThis.dateformat(event.point.category, config.date_format),
+                    "type_label": labelName,
                     "url": item1.url});
                   drillLinks.push({"label": item1.label,
                     "type": item1.type,
-                    "type_label": "Drill into " + visObjectThis.dateformat(event.point.category, config.date_format),
+                    "type_label": labelName,
                     "url": item1.url});
                 });
               }
