@@ -55,7 +55,7 @@ const visObject = {
       label: "Decimals",
       default: 2
     },
-    cellColor: {
+    areaColor: {
       section: "Data",
       type: "array",
       display: "colors",
@@ -280,8 +280,13 @@ const visObject = {
       }
     })
     const yValues = [];
+    const colorSize = config.areaColor.length;
+    let count = 0;
     for(let name in yValueObj){
-      yValues.push({name: name, data: yValueObj[name]});
+      if(count >= colorSize){
+        count = count - colorSize;
+      }
+      yValues.push({name: name, data: yValueObj[name], color: config.areaColor[count++]});
     }
     console.log("========y axis data=========");
     console.log(JSON.stringify(yValues))
