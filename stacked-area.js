@@ -55,6 +55,13 @@ const visObject = {
       label: "Decimals",
       default: 2
     },
+    cellColor: {
+      section: "Data",
+      type: "array",
+      display: "colors",
+      label: "Color Palette",
+      default: ["#424D5E", "#6A334C", "#A8D8F2", "#83889D", "#AC8999", "#C3CDE9", "#617D8C", "#A74D4D", "#2F4B9B", "#B7A5AD", "#F2A8A8", "#9889AC"]
+    },
     sort_by_x: {
       section: "Data",
       type: "boolean",
@@ -202,18 +209,21 @@ const visObject = {
 
 
     const convertedData = data.map(item => {
+      let subLinks = {};
+      subLinks.default = item[xFieldName].links ? item[xFieldName].links : [];
       const date = item[xFieldName].value;
       const yValues = {};
       for(let subValue in item[yFieldName]){
         const subObj = item[yFieldName][subValue];
         if(typeof subObj === 'object'){
+          subLinks[subValue] = subObj.links ? subObj.links : [];
           let yValue = this.findPathByLeafId('value', subObj);
           yValue = yValue ? yValue : 0;
           const mktValue = percentage ? yValue * 100 : yValue;
           yValues[subValue] = mktValue;
         }
       }
-      return [date, yValues];
+      return [date, yValues, subLinks];
     });
 
     // const convertedData = data.filter(item => this.findPathByLeafId('value', item[yFieldName])).map(item => {
@@ -341,17 +351,23 @@ const visObject = {
           cursor: 'pointer',
           events: {
             click: function (event) {
+              console.log("event: ")
+              console.log(event);
               // console.log(window.top.document.getElementById("looker"))
               window.top.postMessage("message1","*");
               window.parent.postMessage("message2","*");
-              const drillLinks = data.links[event.point.index].map(item => {
-                return {
-                  "label": item.label,
-                  "type": item.type,
-                  "type_label": "Drill into " + visObjectThis.dateformat(event.point.options.x, config.date_format),
-                  "url": item.url
-                };
-              })
+              const drillLinks = [];
+              const linkObj = data.convertedData[event.point.index][2];
+              for(let name in linkObj){
+                const item = linkObj[name];
+                item.forEach(item1 => {
+                  drillLinks.push({"label": item1.label,
+                    "type": item1.type,
+                    "type_label": "Drill into " + visObjectThis.dateformat(event.point.options.x, config.date_format),
+                    "url": item1.url});
+                });
+              }
+
               if (drillLinks.length > 0) {
                 LookerCharts.Utils.openDrillMenu({
                   links: drillLinks,
