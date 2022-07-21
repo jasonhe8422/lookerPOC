@@ -260,15 +260,10 @@ const visObject = {
     const yTitle = config.display_y_axis_title ? yLabel || "" : "";
     data.convertedData = data.convertedData.filter(item => {
       item = item[1];
-      let count = 0;
       for(let name in item){
-        count++;
         if(item[name] != 0){
           return true;
         }
-      }
-      if(count == 1){
-        return true;
       }
       return false;
     })
@@ -291,6 +286,10 @@ const visObject = {
       }
       yValues.push({name: name, data: yValueObj[name], color: config.areaColor[count++]});
     }
+    console.log("x value: ");
+    console.log(xValues);
+    console.log("y value: ");
+    console.log(yValues);
     Highcharts.chart(containerId, {
       credits: {
         enabled: false,
