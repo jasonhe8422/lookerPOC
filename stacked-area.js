@@ -207,13 +207,10 @@ const visObject = {
       for(let subValue in item[yFieldName]){
         const subObj = item[yFieldName][subValue];
         if(typeof subObj === 'object'){
-          if(!yValues[subValue]){
-            yValues[subValue] = [];
-          }
           let yValue = this.findPathByLeafId('value', subObj);
           yValue = yValue ? yValue : 0;
           const mktValue = percentage ? yValue * 100 : yValue;
-          yValues[subValue].push(mktValue);
+          yValues[subValue] = mktValue;
         }
       }
       return [date, yValues];
