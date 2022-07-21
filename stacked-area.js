@@ -373,7 +373,11 @@ const visObject = {
         borderWidth: 0,
         shadow: false,
         useHTML: true,
-        formatter: function () {
+        formatter: function (e) {
+          console.log("e: ");
+          console.log(e);
+          console.log(this);
+          console.log(JSON.stringify(this));
           const date = visObjectThis.dateformat(this.x, config.date_format);
           let amount = visObjectThis.formatMoney(this.y, config.decimals, '');
           if (config.percentage) {
