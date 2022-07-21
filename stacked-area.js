@@ -284,7 +284,7 @@ const visObject = {
       if(count >= colorSize){
         count = count - colorSize;
       }
-      yValues.push({name: name, data: yValueObj[name], color: config.areaColor[count++]});
+      yValues.push({name: name, data: yValueObj[name], color: config.areaColor[count++], marker:{enabled: false}});
     }
     console.log("x value: ");
     console.log(xValues);
