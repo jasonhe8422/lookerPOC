@@ -198,19 +198,41 @@ const visObject = {
         }
       })
     }
-    let links = [];
-    const convertedData = data.filter(item => this.findPathByLeafId('value', item[yFieldName])).map(item => {
-      let subLinks = [];
-      subLinks = subLinks.concat(item[xFieldName].links ? item[xFieldName].links : []);
-      subLinks = subLinks.concat(item[yFieldName].links ? item[yFieldName].links : []);
-      links.push(subLinks);
-      const date = item[xFieldName].value;
-      const yValue = this.findPathByLeafId('value', item[yFieldName])
-      const mktValue = percentage ? yValue * 100 : yValue;
-      return [date, this.round(mktValue, config.decimals)];
-    });
+    const xValues = [];
+    const yValues = {};
+    let links = {};
+    for(let item in data){
+      xValues.concat(item[xFieldName].value);
+      for(let subValue in item[yFieldName]){
+        if(typeof subValue === 'object'){
+          if(yValues[subValue]){
+            yValues[subValue] = [];
+          }
+         const yValue = this.findPathByLeafId('value', item[yFieldName][subValue]);
+          const mktValue = percentage ? yValue * 100 : yValue;
+          yValues[subValue].concat(mktValue);
+        }
+      }
+    }
+    console.log("xValues: ");
+    console.log(xValues);
+    console.log("yValues: ");
+    console.log(yValues);
+    // const convertedData = data.filter(item => this.findPathByLeafId('value', item[yFieldName])).map(item => {
+    //   let subLinks = [];
+    //   subLinks = subLinks.concat(item[xFieldName].links ? item[xFieldName].links : []);
+    //   subLinks = subLinks.concat(item[yFieldName].links ? item[yFieldName].links : []);
+    //   links.push(subLinks);
+    //   const date = item[xFieldName].value;
+    //   const yValue = this.findPathByLeafId('value', item[yFieldName])
+    //   const mktValue = percentage ? yValue * 100 : yValue;
+    //   return [date, this.round(mktValue, config.decimals)];
+    // });
     return {
-      "convertedData": convertedData,
+      "convertedData": {
+        "xValues":xValues,
+        "yValues":yValues
+      },
       "links": links
     };
   },
