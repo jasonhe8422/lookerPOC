@@ -325,13 +325,7 @@ const visObject = {
           enabled: false,
           text: xTitle
         },
-        width: config.display_y_axis_title ? "95%" : "100%",
-        labels:{
-          formatter: function(){
-            console.log(this.value);
-            return Highcharts.dateFormat('%m-%d-%Y', this.value);
-          }
-        }
+        width: config.display_y_axis_title ? "95%" : "100%"
       },
       yAxis: {
         title: {
@@ -418,7 +412,7 @@ const visObject = {
         useHTML: true,
         formatter: function () {
           console.log(this.points);
-          return this.points.map(item => {
+          return [this.x].concat(this.points.map(item => {
             console.log(item);
             let amount = visObjectThis.formatMoney(item.y, config.decimals, '');
             if (config.percentage) {
@@ -426,7 +420,7 @@ const visObject = {
             }
             return '<div style="height:20px">' +
               item.series.name + '</div><div><b>' + amount + '</b></div>';
-          });
+          }));
         }
       }
     });
