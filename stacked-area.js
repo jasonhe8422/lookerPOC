@@ -365,9 +365,13 @@ const visObject = {
                 }
                 const item = linkObj[name];
                 item.forEach(item1 => {
+                  console.log({"label": item1.label,
+                    "type": item1.type,
+                    "type_label": "Drill into " + visObjectThis.dateformat(event.point.category, config.date_format),
+                    "url": item1.url});
                   drillLinks.push({"label": item1.label,
                     "type": item1.type,
-                    "type_label": "Drill into " + visObjectThis.dateformat(event.point.options.x, config.date_format),
+                    "type_label": "Drill into " + visObjectThis.dateformat(event.point.category, config.date_format),
                     "url": item1.url});
                 });
               }
