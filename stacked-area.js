@@ -325,6 +325,12 @@ const visObject = {
           enabled: false,
           text: xTitle
         },
+        labels:{
+          formatter: function (){
+            console.log("x label: ")
+            console.log(this);
+          }
+        },
         width: config.display_y_axis_title ? "95%" : "100%"
       },
       yAxis: {
