@@ -363,7 +363,7 @@ const visObject = {
             if (config.percentage) {
               return label + "%";
             }
-            return label + unit ? unit : '';
+            return label + (unit ? unit : '');
           }
         }
       },
