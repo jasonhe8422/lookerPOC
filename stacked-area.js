@@ -342,11 +342,12 @@ const visObject = {
             // const decimals = config.decimals_y_axis_label || 0;
             const format = config.y_axis_label_format.split(' ');
             let formattedValue = this.value;
-            if(format[2] === '"S"'){
+            const unit = format[2] && format[2].length == 3 && format[2].substring(1,2);
+            if(unit === 'S'){
               formattedValue = this.value / 1000;
-            }else if(format[2] === '"M"'){
+            }else if(unit === 'M'){
               formattedValue = this.value / 1000000;
-            }else if(format[2] === '"B"'){
+            }else if(unit === 'B'){
               formattedValue = this.value / 1000000000;
             }
 
@@ -360,7 +361,7 @@ const visObject = {
             if (config.percentage) {
               return label + "%";
             }
-            return label;
+            return label + unit ? ' ' + unit : '';
           }
         }
       },
@@ -447,7 +448,7 @@ const visObject = {
   formatMoney: function (number, places, symbol, thousand, decimal) {
     number = number || 0;
     places = !isNaN(places = Math.abs(places)) ? places : 2;
-    symbol = symbol !== undefined ? symbol : "$";
+    symbol = symbol ? symbol+' ' : "$ ";
     thousand = thousand || ",";
     decimal = decimal || ".";
     let negative = number < 0 ? "-" : "";
