@@ -90,10 +90,11 @@ const visObject = {
       label: "Display Y Axis title",
       default: true
     },
-    decimals_y_axis_label: {
+    y_axis_label_format:{
       section: "Y",
-      type: "number",
-      label: "Decimals"
+      type: "string",
+      label: "Y Axis Format",
+      default: "$ 0.00,, \"M\""
     }
   },
 
@@ -338,8 +339,14 @@ const visObject = {
         },
         labels: {
           formatter: function () {
-            const decimals = config.decimals_y_axis_label || 0;
-            let label = visObjectThis.formatMoney(this.value, decimals, '');
+            // const decimals = config.decimals_y_axis_label || 0;
+            const format = config.y_axis_label_format.split(' ');
+            //(number, places, symbol, thousand, decimal)
+            const thousand = format[1].substring(format[1].indexOf(',')+1);
+            const numberFormat = format[1].substring(0, format[1].indexOf(','));
+            const decimals = numberFormat.length - (numberFormat.indexOf('.')+1)
+
+            let label = visObjectThis.formatMoney(this.value, decimals, format[0], thousand, '.');
             if (config.percentage) {
               return label + "%";
             }
