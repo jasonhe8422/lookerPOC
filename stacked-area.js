@@ -361,7 +361,7 @@ const visObject = {
             if (config.percentage) {
               return label + "%";
             }
-            return label + unit ? ' ' + unit : '';
+            return label + unit ? unit : '';
           }
         }
       },
@@ -448,7 +448,7 @@ const visObject = {
   formatMoney: function (number, places, symbol, thousand, decimal) {
     number = number || 0;
     places = !isNaN(places = Math.abs(places)) ? places : 2;
-    symbol = symbol ? symbol+' ' : "$ ";
+    symbol = symbol !== undefined ? symbol : "$";
     thousand = thousand || ",";
     decimal = decimal || ".";
     let negative = number < 0 ? "-" : "";
