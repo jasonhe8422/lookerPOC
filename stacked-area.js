@@ -341,12 +341,22 @@ const visObject = {
           formatter: function () {
             // const decimals = config.decimals_y_axis_label || 0;
             const format = config.y_axis_label_format.split(' ');
+            let formattedValue = this.value;
+            if(format[2] === '"S"'){
+              formattedValue = this.value / 1000;
+            }else if(format[2] === '"M"'){
+              formattedValue = this.value / 1000000;
+            }else if(format[2] === '"B"'){
+              formattedValue = this.value / 1000000000;
+            }
+
             //(number, places, symbol, thousand, decimal)
             const thousand = format[1].substring(format[1].indexOf(',')+1);
             const numberFormat = format[1].substring(0, format[1].indexOf(','));
             const decimals = numberFormat.length - (numberFormat.indexOf('.')+1)
 
-            let label = visObjectThis.formatMoney(this.value, decimals, format[0], thousand, '.');
+            let label = visObjectThis.formatMoney(formattedValue, decimals, format[0], thousand, '.');
+
             if (config.percentage) {
               return label + "%";
             }
