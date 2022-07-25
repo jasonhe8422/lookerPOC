@@ -256,6 +256,8 @@ const visObject = {
   },
 
   drawChart: function (containerId, drillIntoDiv, data, xLabel, yLabel, config) {
+    console.log("drawChart: ");
+    console.log(config.areaColor);
     const visObjectThis = this;
     const xTitle = config.display_x_axis_title ? xLabel || "" : "";
     const yTitle = config.display_y_axis_title ? yLabel || "" : "";
