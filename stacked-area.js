@@ -185,15 +185,16 @@ const visObject = {
   generateNormalHighChartLine: function (queryResponse, data, config, containerId, drillIntoDiv) {
     let measureName = queryResponse.fields.measures[0].name;
     let dimensionName = queryResponse.fields.dimensions[0].name;
-    const convertedData = this.convertData(dimensionName, measureName, data, config);
-     console.log("----------------Converted Data------------------------")
-     // console.log(JSON.stringify(convertedData));
     const measureLabelName = config.custom_y_axis_name || queryResponse.fields.measures[0].label_short || queryResponse.fields.measures[0].label;
     const dimensionLabelName = config.custom_x_axis_name || queryResponse.fields.dimensions[0].label_short || queryResponse.fields.dimensions[0].label;
+    const convertedData = this.convertData(dimensionName, measureName,dimensionLabelName,measureLabelName, data, config);
+     console.log("----------------Converted Data------------------------")
+     // console.log(JSON.stringify(convertedData));
+
     this.drawChart(containerId, drillIntoDiv, convertedData, dimensionLabelName, measureLabelName, config);
   },
 
-  convertData: function (xFieldName, yFieldName, data, config) {
+  convertData: function (xFieldName, yFieldName, dimensionLabelName,measureLabelName,data, config) {
     const percentage = config.percentage;
     if (config.sort_by_x) {
       data = data.filter(item => item[xFieldName].value).sort((a, b) => {
@@ -208,7 +209,6 @@ const visObject = {
     }
     let links = {};
 
-    const measureLabelName = config.custom_y_axis_name || queryResponse.fields.measures[0].label_short || queryResponse.fields.measures[0].label;
     const convertedData = data.map(item => {
       let subLinks = {};
       subLinks.default = item[xFieldName].links ? item[xFieldName].links : [];
