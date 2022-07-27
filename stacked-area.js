@@ -217,6 +217,8 @@ const visObject = {
       for(let subValue in item[yFieldName]){
         const subObj = item[yFieldName][subValue];
         if(typeof subObj === 'object'){
+          console.log("subObj: ");
+          console.log(subObj);
           subLinks[subValue] = subObj.links ? subObj.links : [];
           let yValue = this.findPathByLeafId('value', subObj);
           yValue = yValue ? yValue : 0;
