@@ -214,9 +214,26 @@ const visObject = {
       subLinks.default = item[xFieldName].links ? item[xFieldName].links : [];
       const date = item[xFieldName].value;
       const yValues = {};
-      for(let subValue in item[yFieldName]){
+      const yObj = item[yFieldName];
+      let hasValueProperty = false;
+      let hasLinksProperty = false;
+      for(let name in yObj){
+        if(name === 'value'){
+          hasValueProperty = true;
+        }else if(name === 'links'){
+          hasLinksProperty = true;
+        }
+      }
+      if(hasValueProperty && hasLinksProperty){
+        subLinks.default = subLinks.default.concat(yObj.links?yObj.links:[]);
+        let yValue = yObj.value? yObj.value:0;
+        const mktValue = percentage ? yValue * 100 : yValue;
+        yValues['default'] = mktValue
+        return [date, yValues, subLinks];
+      }
+      for(let subValue in yObj){
         const subObj = item[yFieldName][subValue];
-        if(subObj && typeof subObj === 'object'){
+        if(typeof subObj === 'object'){
           subLinks[subValue] = subObj.links ? subObj.links : [];
           let yValue = this.findPathByLeafId('value', subObj);
           yValue = yValue ? yValue : 0;
