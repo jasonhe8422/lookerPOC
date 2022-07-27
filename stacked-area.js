@@ -221,7 +221,7 @@ const visObject = {
           hasValueProperty = true;
         }
       }
-      if(hasValueProperty && hasLinksProperty){
+      if(hasValueProperty){
         subLinks.default = subLinks.default.concat(yObj.links?yObj.links:[]);
         let yValue = yObj.value? yObj.value:0;
         const mktValue = percentage ? yValue * 100 : yValue;
