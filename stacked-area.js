@@ -62,12 +62,12 @@ const visObject = {
       label: "Color Palette",
       default: ["#424D5E", "#6A334C", "#A8D8F2", "#83889D", "#AC8999", "#C3CDE9", "#617D8C", "#A74D4D", "#2F4B9B", "#B7A5AD", "#F2A8A8", "#9889AC"]
     },
-    sort_by_x: {
-      section: "Data",
-      type: "boolean",
-      label: "Sort By X Axis",
-      default: false
-    },
+    // sort_by_x: {
+    //   section: "Data",
+    //   type: "boolean",
+    //   label: "Sort By X Axis",
+    //   default: false
+    // },
     custom_x_axis_name: {
       section: "X",
       type: "string",
@@ -115,8 +115,8 @@ const visObject = {
   updateAsync: function (data, element, config, queryResponse, details, doneRendering) {
     // Clear any errors from previous updates.
     this.clearErrors();
-    console.log("config: ");
-    console.log(JSON.stringify(config));
+    // console.log("config: ");
+    // console.log(JSON.stringify(config));
     // console.log("queryResponse: ");
     // console.log(JSON.stringify(queryResponse));
     // console.log("data: ");
@@ -216,9 +216,7 @@ const visObject = {
       const yValues = {};
       for(let subValue in item[yFieldName]){
         const subObj = item[yFieldName][subValue];
-        if(typeof subObj === 'object'){
-          console.log("subObj: ");
-          console.log(subObj);
+        if(subObj && typeof subObj === 'object'){
           subLinks[subValue] = subObj.links ? subObj.links : [];
           let yValue = this.findPathByLeafId('value', subObj);
           yValue = yValue ? yValue : 0;
