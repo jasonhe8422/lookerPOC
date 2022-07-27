@@ -216,12 +216,9 @@ const visObject = {
       const yValues = {};
       const yObj = item[yFieldName];
       let hasValueProperty = false;
-      let hasLinksProperty = false;
       for(let name in yObj){
         if(name === 'value'){
           hasValueProperty = true;
-        }else if(name === 'links'){
-          hasLinksProperty = true;
         }
       }
       if(hasValueProperty && hasLinksProperty){
