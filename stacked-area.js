@@ -208,7 +208,7 @@ const visObject = {
     }
     let links = {};
 
-
+    const measureLabelName = config.custom_y_axis_name || queryResponse.fields.measures[0].label_short || queryResponse.fields.measures[0].label;
     const convertedData = data.map(item => {
       let subLinks = {};
       subLinks.default = item[xFieldName].links ? item[xFieldName].links : [];
@@ -225,7 +225,7 @@ const visObject = {
         subLinks.default = subLinks.default.concat(yObj.links?yObj.links:[]);
         let yValue = yObj.value? yObj.value:0;
         const mktValue = percentage ? yValue * 100 : yValue;
-        yValues['default'] = mktValue
+        yValues[measureLabelName] = mktValue
         return [date, yValues, subLinks];
       }
       for(let subValue in yObj){
